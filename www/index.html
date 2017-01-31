@@ -116,11 +116,12 @@
 
 							var url="http://192.168.43.18/server/index.php?status";
 						     	 //prompt("abc",url);
+						     	 snack('Getting Values');
 						     	$.getJSON(url,function(result){
 								//alert(result.LOne+result.FOne+result.LTwo+result.FTwo+result.FThree+"test");
 							  	   if(result.lone=="OFF")
 							  	   		{
-							  	   			$("#LOne").innerHTML='1st Light (OFF)';
+							  	   			$("#LOne").html('1st Light (OFF)');
 							  	   			localStorage.setItem("LOne","OFF");
 							  	   		}
 							  	   else
@@ -213,7 +214,7 @@
 
 					$("#LTwo").click(function(){
 						var stat;
-						if(localStorage.getItem("LTWo")=="ON")
+						if(localStorage.getItem("LTwo")=="ON")
 						{
 							stat = 'OFF';
 							localStorage.setItem("LTwo","OFF");
