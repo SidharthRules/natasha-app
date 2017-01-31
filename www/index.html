@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<head>
+	<title>A.I.S.H.A</title>
+	<link rel="stylesheet" href="css/icon.css">
+	<link rel="stylesheet" href="css/material.indigo-pink.min.css">
+	<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+	<script src="js/material.min.js"></script>
+	<script src="js/jquery-2.2.4.min.js"></script>
+	<script type="text/javascript" src="js/plotly-latest.min.js"></script>
+	<style type="text/css">
+		body{
+			background-color: #f5f5f5; 
+		}
+		.wid90{
+			width: 90%!important;
+		}
+		.page-content{
+			padding: 10px!important;
+   			}
+   		@media screen and (max-width: 1024px){
+   			.mdl-layout__header .mdl-layout__drawer-button {
+		    margin: 7px!important;
+			}	
+   		}
+   		.mdl-button{
+   			margin: 10px!important;
+   		}
+   		.demo-card-wide.mdl-card {
+		  width: 90%;
+		}
+		.demo-card-wide > .mdl-card__title {
+		  color: #fff;
+		  height: 176px;
+		  background: url('img/bg1.png') center / cover;
+		}
+		.demo-card-wide > .mdl-card__menu {
+		  color: #fff;
+		}
+		.menuImg{
+			width: 100px;
+			padding: 10px;
+		}
+		.mdl-card{
+			min-height: 50px;
+		}
+		.modebar
+		{
+			display: none!important;
+		}
+ 	</style>
+</head>
+
+<body>
+	<!-- Always shows a header, even in smaller screens. -->
+	<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+	  <header class="mdl-layout__header">
+	    <div class="mdl-layout__header-row">
+	      <!-- Title -->
+	      <span class="mdl-layout-title">Project Natasha</span>
+	      <!-- Add spacer, to align navigation to the right -->
+	      <div class="mdl-layout-spacer"></div>
+	     </div>
+	  </header>
+	  <div class="mdl-layout__drawer">
+	    <span class="mdl-layout-title">Natasha</span>
+	    <nav class="mdl-navigation">
+	      <a class="mdl-navigation__link" href="" id="logout">About</a>
+	    </nav>
+	  </div>
+	  <main class="mdl-layout__content">
+	    <div class="page-content">
+	    	<!-- Accent-colored raised button with ripple -->
+	    	<center>
+	    		<div class="demo-card-wide mdl-card mdl-shadow--2dp">
+				  <div class="mdl-card__title">
+				    <h2 class="mdl-card__title-text" id="welcome" style="background: rgba(0, 0, 0, 0.5);"></h2>
+				  </div>
+				  <div class="mdl-card__supporting-text" id="myText">
+				  	AI powered Smart Home Automation
+				  </div>				  
+				</div>
+
+				<div class="demo-card-wide mdl-card mdl-shadow--2dp" style="margin-top:10px;">
+				  <div class="mdl-card__actions mdl-card--border" style="min-height:300px;" id='switches'>
+				    	<button id="LOne" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored wid90"></button>
+				    	<button id="LTwo" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored wid90"></button>
+				    	<button id="FOne" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored wid90"></button>
+				    	<button id="FTwo" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored wid90"></button>
+				    	<button id="FThree" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored wid90"></button>
+				  </div>
+				</div>
+				 
+				<div class="demo-card-wide mdl-card mdl-shadow--2dp" style="margin-top:10px;">
+				  <div class="mdl-card__actions mdl-card--border" style="min-height:300px;" id='frame'>
+				    	<div id="hpan" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label wid90">
+						    <input class="mdl-textfield__input" type="text" id="ip">
+						  	<label class="mdl-textfield__label" for="roll">The IP Address</label>
+						</div>
+				    	<button id="hme" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored wid90">Start Home Survelliance</button>
+				  </div>
+				</div>
+				 
+				<div id="toast" class="mdl-js-snackbar mdl-snackbar">
+				  <div class="mdl-snackbar__text"></div>
+				  <button class="mdl-snackbar__action" type="button"></button>
+				</div>
+				<script type="text/javascript">
+			 		//var name="",status="";
+					function snack(string) {
+					    var snackbarContainer = document.querySelector('#toast');
+					    var data = { message: string, timeout: 2000 };
+					    snackbarContainer.MaterialSnackbar.showSnackbar(data);
+					}
+					$(document).ready(function(){
+						setInterval(function(){
+
+							var url="http://192.168.43.18/server/index.php?status";
+						     	 //prompt("abc",url);
+						     	$.getJSON(url,function(result){
+								//alert(result.LOne+result.FOne+result.LTwo+result.FTwo+result.FThree+"test");
+							  	   if(result.lone=="OFF")
+							  	   		{
+							  	   			$("#LOne").innerHTML='1st Light (OFF)';
+							  	   			localStorage.setItem("LOne","OFF");
+							  	   		}
+							  	   else
+							  	   		{
+							  	   			$("#LOne").html('1st Light (ON)');
+							  	   			localStorage.setItem("LOne","ON");
+							  	   		}
+
+							  	   if(result.ltwo=="OFF")
+							  	   		{
+							  	   			$("#LTwo").html('2nd Light (OFF)');
+							  	   			localStorage.setItem("LTwo","OFF");
+							  	   		}
+							  	   else
+							  	   		{
+							  	   			$("#LTwo").html('2nd Light (ON)');
+							  	   			localStorage.setItem("LTwo","ON");
+							  	   		}
+
+							  	   if(result.fone=="OFF")
+							  	   		{
+							  	   			$("#FOne").html('1st Fan (OFF)');
+							  	   			localStorage.setItem("FOne","OFF");
+							  	   		}
+							  	   else
+							  	   		{
+							  	   			$("#FOne").html('1st Fan (ON)');
+							  	   			localStorage.setItem("FOne","ON");
+							  	   		}
+
+							  	   if(result.ftwo=="OFF")
+							  	   		{
+							  	   			$("#FTwo").html('2nd Fan (OFF)');
+							  	   			localStorage.setItem("FTwo","OFF");
+							  	   		}
+							  	   else
+							  	   		{
+							  	   			$("#FTwo").html('2nd Fan (ON)');
+							  	   			localStorage.setItem("FTwo","ON");
+							  	   		}
+
+							  	   if(result.pump=="OFF")
+							  	   		{
+							  	   			$("#FThree").html('Plug (OFF)');
+							  	   			localStorage.setItem("Plug","OFF");
+							  	   		}
+							  	   else
+							  	   		{
+							  	   			$("#FThree").html('Plug (ON)');
+							  	   			localStorage.setItem("Plug","ON");
+							  	   		}
+							  	   
+							  });
+						     }, 5000);
+					
+					$("#hme").click(function(){
+						var url = document.getElementById('ip').value
+
+						$('#hme').css("display", "none");
+						$('#hpan').html('<iframe style="min-height:280px;" src="'+url+'"/>');
+					});
+						
+					$("#LOne").click(function(){
+						var stat;
+						if(localStorage.getItem("LOne")=="ON")
+						{
+							stat = 'OFF';
+							localStorage.setItem("LOne","OFF");
+						}
+						else
+						{
+							stat = 'ON';
+							localStorage.setItem("LOne","ON");
+						}
+
+						var url="http://192.168.43.18/server/index.php?sid=lone&status="+stat;
+					     	 //prompt("abc",url);
+					     	$.getJSON(url,function(result){
+					     		if(result.check=="True")
+						  	   		{
+						  	   			snack('Please Wait');
+						  	   		}
+						  	   	else
+						  	   	{
+						  	   		snack('Failed...');
+						  	   	}
+					     	});
+
+					});
+
+					$("#LTwo").click(function(){
+						var stat;
+						if(localStorage.getItem("LTWo")=="ON")
+						{
+							stat = 'OFF';
+							localStorage.setItem("LTwo","OFF");
+						}
+						else
+						{
+							stat = 'ON';
+							localStorage.setItem("LTwo","ON");
+						}
+
+						var url="http://192.168.43.18/server/index.php?sid=ltwo&status="+stat;
+					     	 //prompt("abc",url);
+					     	$.getJSON(url,function(result){
+					     		if(result.check=="True")
+						  	   		{
+						  	   			snack('Please Wait');
+						  	   		}
+						  	   	else
+						  	   	{
+						  	   		snack('Failed...');
+						  	   	}
+					     	});
+
+					});
+
+					$("#FOne").click(function(){
+						var stat;
+						if(localStorage.getItem("FOne")=="ON")
+						{
+							stat = 'OFF';
+							localStorage.setItem("FOne","OFF");
+						}
+						else
+						{
+							stat = 'ON';
+							localStorage.setItem("FOne","ON");
+						}
+
+						var url="http://192.168.43.18/server/index.php?sid=fone&status="+stat;
+					     	 //prompt("abc",url);
+					     	$.getJSON(url,function(result){
+					     		if(result.check=="True")
+						  	   		{
+						  	   			snack('Please Wait');
+						  	   		}
+						  	   	else
+						  	   	{
+						  	   		snack('Failed...');
+						  	   	}
+					     	});
+
+					});
+
+					$("#FTwo").click(function(){
+						var stat;
+						if(localStorage.getItem("FTwo")=="ON")
+						{
+							stat = 'OFF';
+							localStorage.setItem("FTwo","OFF");
+						}
+						else
+						{
+							stat = 'ON';
+							localStorage.setItem("FTwo","ON");
+						}
+
+						var url="http://192.168.43.18/server/index.php?sid=ftwo&status="+stat;
+					     	 //prompt("abc",url);
+					     	$.getJSON(url,function(result){
+					     		if(result.check=="True")
+						  	   		{
+						  	   			snack('Please Wait');
+						  	   		}
+						  	   	else
+						  	   	{
+						  	   		snack('Failed...');
+						  	   	}
+					     	});
+
+					});
+
+					$("#FThree").click(function(){
+						var stat;
+						if(localStorage.getItem("FThree")=="ON")
+						{
+							stat = 'OFF';
+							localStorage.setItem("FThree","OFF");
+						}
+						else
+						{
+							stat = 'ON';
+							localStorage.setItem("FThree","ON");
+						}
+
+						var url="http://192.168.43.18/server/index.php?sid=pump&status="+stat;
+					     	 //prompt("abc",url);
+					     	$.getJSON(url,function(result){
+					     		if(result.check=="True")
+						  	   		{
+						  	   			snack('Please Wait');
+						  	   		}
+						  	   	else
+						  	   	{
+						  	   		snack('Failed...');
+						  	   	}
+					     	});
+
+					});
+						
+					   	
+					$("#welcome").html("Welcome "+localStorage.getItem('user'));
+					$("#logout").click(function(){
+						localStorage.setItem("login","False");
+						snack('Please Wait');
+						window.open("index.html","_parent");
+					});
+					$("#attend").click(function(){
+						snack('Please Wait');
+						window.open("attendance.html","_self");
+					});
+					$("#dues").click(function(){
+						snack('Please Wait');
+						window.open("dues.html","_self");
+					});
+					$("#internal").click(function(){
+						snack('Please Wait');
+						window.open("internal.html","_self");
+					});
+					$("#msg").click(function(){
+						snack('Please Wait');
+						window.open("msg.html","_self");
+					});
+				});
+				</script>
+	    	</center>
+	    </div>
+	  </main>
+	</div>
+</body>
+</html>
