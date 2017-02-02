@@ -112,12 +112,12 @@
 					    snackbarContainer.MaterialSnackbar.showSnackbar(data);
 					}
 					$(document).ready(function(){
+						snack('Getting Values');
 						setInterval(function(){
 
 							var url="http://192.168.43.18/server/index.php?status";
 						     	 //prompt("abc",url);
-						     	 snack('Getting Values');
-						     	$.getJSON(url,function(result){
+						     	 $.getJSON(url,function(result){
 								//alert(result.LOne+result.FOne+result.LTwo+result.FTwo+result.FThree+"test");
 							  	   if(result.lone=="OFF")
 							  	   		{
