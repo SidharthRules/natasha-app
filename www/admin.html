@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<head>
+	<title>Natasha App</title>
+	<link rel="stylesheet" href="css/icon.css">
+	<link rel="stylesheet" href="css/material.indigo-pink.min.css">
+	<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+	<script src="js/material.min.js"></script>
+	<script src="js/jquery-2.2.4.min.js"></script>
+	<style type="text/css">
+		body{
+			background-color: #f5f5f5; 
+		}
+		.wid90{
+			width: 90%!important;
+		}
+		.page-content{
+			padding: 10px!important;
+   			}
+   		@media screen and (max-width: 1024px){
+   			.mdl-layout__header .mdl-layout__drawer-button {
+		    margin: 7px!important;
+			}	
+   		}
+   		.mdl-button{
+   			margin: 10px!important;
+   		}
+   		.demo-card-wide.mdl-card {
+		  width: 90%;
+		}
+		.demo-card-wide > .mdl-card__title {
+		  color: #fff;
+		  height: 176px;
+		  background: url('img/bg1.png') center / cover;
+		}
+		.demo-card-wide > .mdl-card__menu {
+		  color: #fff;
+		}
+		.menuImg{
+			width: 100px;
+			padding: 10px;
+		}
+		.mdl-card{
+			min-height: 50px;
+		}
+		.modebar
+		{
+			display: none!important;
+		}
+		#switches{
+			display: none;
+		}
+		#welcome{
+			background: rgba(0, 0, 0, 0.5);
+			padding: 0px 10px 0px 10px;
+    		border-bottom-right-radius: 10px;
+		}
+ 	</style>
+</head>
+
+<body>
+	<!-- Always shows a header, even in smaller screens. -->
+	<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+	  <header class="mdl-layout__header">
+	    <div class="mdl-layout__header-row">
+	      <!-- Title -->
+	      <span class="mdl-layout-title">Project Natasha</span>
+	      <!-- Add spacer, to align navigation to the right -->
+	      <div class="mdl-layout-spacer"></div>
+	     </div>
+	  </header>
+	  <div class="mdl-layout__drawer">
+	    <span class="mdl-layout-title">Natasha</span>
+	    <nav class="mdl-navigation">
+	      <a class="mdl-navigation__link" id="logout">logout</a>
+	    </nav>
+	  </div>
+	  <main class="mdl-layout__content">
+	    <div class="page-content">
+	    	<!-- Accent-colored raised button with ripple -->
+	    	<center>
+	    		<div class="demo-card-wide mdl-card mdl-shadow--2dp">
+				  <div class="mdl-card__title">
+				    <h2 class="mdl-card__title-text" id="welcome" style="background: rgba(0, 0, 0, 0.5);"></h2>
+				  </div>
+				  <div class="mdl-card__supporting-text" id="myText">
+				  	AI powered Smart Home Automation
+				  </div>				  
+				</div>
+
+				<div class="demo-card-wide mdl-card mdl-shadow--2dp" style="margin-top:10px;">
+					<div class="myLoader">
+    					<img src='img/cube.gif'/>
+    				</div>
+				  <div class="mdl-card__actions mdl-card--border" style="min-height:300px;" id='switches'>
+				    	<button id="LOne" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored wid90"></button>
+				    	<button id="LTwo" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored wid90"></button>
+				    	<button id="FOne" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored wid90"></button>
+				    	<button id="FTwo" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored wid90"></button>
+				    	<button id="FThree" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored wid90"></button>
+				  </div>
+				</div>
+				 
+				<div class="demo-card-wide mdl-card mdl-shadow--2dp" style="margin-top:10px;">
+				  <div class="mdl-card__actions mdl-card--border" id='frame'>
+				  		<div class="mdl-grid">
+						 <div class="mdl-cell mdl-cell--5-col">
+						 	<ul class="mdl-list">
+						 		<li class="mdl-list__item">
+								    <span class="mdl-list__item-primary-content">
+								      <i class="material-icons  mdl-list__item-avatar">person</i>
+								      PARENT Role
+								    </span>
+								    <span class="mdl-list__item-secondary-action">
+								      <label style="display:inline" class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="parent">
+								        <input type="radio" id="parent" class="mdl-radio__button" name="grp" value="PARENT"/>
+								      </label>
+								    </span>
+								  </li>
+								  <li class="mdl-list__item">
+								    <span class="mdl-list__item-primary-content">
+								      <i class="material-icons  mdl-list__item-avatar">person</i>
+								      SIBLING Role
+								    </span>
+								    <span class="mdl-list__item-secondary-action">
+								      <label style="display:inline" class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="sibling">
+								        <input type="radio" id="sibling" class="mdl-radio__button" name="grp" value="SIBLING"/>
+								      </label>
+								    </span>
+								  </li>
+								  <li class="mdl-list__item">
+								    <span class="mdl-list__item-primary-content">
+								      <i class="material-icons  mdl-list__item-avatar">person</i>
+								      GUEST Role
+								    </span>
+								    <span class="mdl-list__item-secondary-action">
+								      <label style="display:inline" class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="guest">
+								        <input type="radio" id="guest" class="mdl-radio__button" name="grp" value="GUEST"/>
+								      </label>
+								    </span>
+								  </li>
+						 	</ul>	
+						 </div>
+						 <div class="mdl-cell mdl-cell--7-col">
+						  <div id="hpan" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label wid90">
+							    <input class="mdl-textfield__input" type="text" id="nuser">
+							  	<label class="mdl-textfield__label" for="roll">New Username</label>
+							</div>
+							<div id="hpan" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label wid90">
+							    <input class="mdl-textfield__input" type="password" id="npass">
+							  	<label class="mdl-textfield__label" for="roll">Password</label>
+							</div>
+							<div id="hpan" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label wid90">
+							    <input class="mdl-textfield__input" type="password" id="cnpass">
+							  	<label class="mdl-textfield__label" for="roll">Retype Password</label>
+							</div>
+							<button id="hme" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored wid90">Add a new user !</button>
+						  </div>
+						</div>
+				  </div>
+				</div>
+				 
+				<div id="toast" class="mdl-js-snackbar mdl-snackbar">
+				  <div class="mdl-snackbar__text"></div>
+				  <button class="mdl-snackbar__action" type="button"></button>
+				</div>
+				<script type="text/javascript">
+			 		//var name="",status="";
+
+					function snack(string) {
+					    var snackbarContainer = document.querySelector('#toast');
+					    var data = { message: string, timeout: 2000 };
+					    snackbarContainer.MaterialSnackbar.showSnackbar(data);
+					}
+
+					$(document).ready(function(){
+						//snack("Getting Values");
+						setInterval(function(){
+							var url="http://localhost/natasha/server/index.php?status";
+						     	 //prompt("abc",url);
+						     	 $.getJSON(url,function(result){
+								//alert(result.LOne+result.FOne+result.LTwo+result.FTwo+result.FThree+"test");
+							  	   if(result.lone=="OFF")
+							  	   		{
+							  	   			$("#LOne").html('1st Light (OFF)');
+							  	   			localStorage.setItem("LOne","OFF");
+							  	   		}
+							  	   else
+							  	   		{
+							  	   			$("#LOne").html('1st Light (ON)');
+							  	   			localStorage.setItem("LOne","ON");
+							  	   		}
+
+							  	   if(result.ltwo=="OFF")
+							  	   		{
+							  	   			$("#LTwo").html('2nd Light (OFF)');
+							  	   			localStorage.setItem("LTwo","OFF");
+							  	   		}
+							  	   else
+							  	   		{
+							  	   			$("#LTwo").html('2nd Light (ON)');
+							  	   			localStorage.setItem("LTwo","ON");
+							  	   		}
+
+							  	   if(result.fone=="OFF")
+							  	   		{
+							  	   			$("#FOne").html('1st Fan (OFF)');
+							  	   			localStorage.setItem("FOne","OFF");
+							  	   		}
+							  	   else
+							  	   		{
+							  	   			$("#FOne").html('1st Fan (ON)');
+							  	   			localStorage.setItem("FOne","ON");
+							  	   		}
+
+							  	   if(result.ftwo=="OFF")
+							  	   		{
+							  	   			$("#FTwo").html('2nd Fan (OFF)');
+							  	   			localStorage.setItem("FTwo","OFF");
+							  	   		}
+							  	   else
+							  	   		{
+							  	   			$("#FTwo").html('2nd Fan (ON)');
+							  	   			localStorage.setItem("FTwo","ON");
+							  	   		}
+
+							  	   if(result.pump=="OFF")
+							  	   		{
+							  	   			$("#FThree").html('Plug (OFF)');
+							  	   			localStorage.setItem("Plug","OFF");
+							  	   		}
+							  	   else
+							  	   		{
+							  	   			$("#FThree").html('Plug (ON)');
+							  	   			localStorage.setItem("Plug","ON");
+							  	   		}
+							  	   	$('.myLoader').hide();
+							  	  	$('#switches').show();
+							  	   
+							  });
+						     }, 5000);
+		
+					$("#hme").click(function(){
+						//alert()
+						var url="http://localhost/natasha/server/index.php?user="+document.getElementById('nuser').value+"&pass="+document.getElementById('npass').value+"&grp="+$('input[name="grp"]:checked').val();
+						if($('input[id="npass"]').val()==$('input[id="cnpass"]').val())
+						{
+							$.getJSON(url,function(result){
+					     		if(result.check=="True")
+						  	   		snack('Successfully Created !');
+						  	   	else
+						  	   		snack('Failed...');
+				     		});
+						}
+				     	else
+				     	{
+				     		snack("Passwords Doesn't Match !")
+				     	}
+					});
+						
+					$("#LOne").click(function(){
+						var stat;
+						if(localStorage.getItem("LOne")=="ON")
+						{
+							stat = 'OFF';
+							localStorage.setItem("LOne","OFF");
+						}
+						else
+						{
+							stat = 'ON';
+							localStorage.setItem("LOne","ON");
+						}
+
+						var url="http://localhost/natasha/server/index.php?sid=lone&status="+stat;
+					     	 //prompt("abc",url);
+					     	$.getJSON(url,function(result){
+					     		if(result.check=="True")
+						  	   		{
+						  	   			snack('Please Wait');
+						  	   		}
+						  	   	else
+						  	   	{
+						  	   		snack('Failed...');
+						  	   	}
+					     	});
+
+					});
+
+					$("#LTwo").click(function(){
+						var stat;
+						if(localStorage.getItem("LTwo")=="ON")
+						{
+							stat = 'OFF';
+							localStorage.setItem("LTwo","OFF");
+						}
+						else
+						{
+							stat = 'ON';
+							localStorage.setItem("LTwo","ON");
+						}
+
+						var url="http://localhost/natasha/server/index.php?sid=ltwo&status="+stat;
+					     	 //prompt("abc",url);
+					     	$.getJSON(url,function(result){
+					     		if(result.check=="True")
+						  	   		{
+						  	   			snack('Please Wait');
+						  	   		}
+						  	   	else
+						  	   	{
+						  	   		snack('Failed...');
+						  	   	}
+					     	});
+
+					});
+
+					$("#FOne").click(function(){
+						var stat;
+						if(localStorage.getItem("FOne")=="ON")
+						{
+							stat = 'OFF';
+							localStorage.setItem("FOne","OFF");
+						}
+						else
+						{
+							stat = 'ON';
+							localStorage.setItem("FOne","ON");
+						}
+
+						var url="http://localhost/natasha/server/index.php?sid=fone&status="+stat;
+					     	 //prompt("abc",url);
+					     	$.getJSON(url,function(result){
+					     		if(result.check=="True")
+						  	   		{
+						  	   			snack('Please Wait');
+						  	   		}
+						  	   	else
+						  	   	{
+						  	   		snack('Failed...');
+						  	   	}
+					     	});
+
+					});
+
+					$("#FTwo").click(function(){
+						var stat;
+						if(localStorage.getItem("FTwo")=="ON")
+						{
+							stat = 'OFF';
+							localStorage.setItem("FTwo","OFF");
+						}
+						else
+						{
+							stat = 'ON';
+							localStorage.setItem("FTwo","ON");
+						}
+
+						var url="http://localhost/natasha/server/index.php?sid=ftwo&status="+stat;
+					     	 //prompt("abc",url);
+					     	$.getJSON(url,function(result){
+					     		if(result.check=="True")
+						  	   		{
+						  	   			snack('Please Wait');
+						  	   		}
+						  	   	else
+						  	   	{
+						  	   		snack('Failed...');
+						  	   	}
+					     	});
+
+					});
+
+					$("#FThree").click(function(){
+						var stat;
+						if(localStorage.getItem("FThree")=="ON")
+						{
+							stat = 'OFF';
+							localStorage.setItem("FThree","OFF");
+						}
+						else
+						{
+							stat = 'ON';
+							localStorage.setItem("FThree","ON");
+						}
+
+						var url="http://localhost/natasha/server/index.php?sid=pump&status="+stat;
+					     	 //prompt("abc",url);
+					     	$.getJSON(url,function(result){
+					     		if(result.check=="True")
+						  	   		{
+						  	   			snack('Please Wait');
+						  	   		}
+						  	   	else
+						  	   	{
+						  	   		snack('Failed...');
+						  	   	}
+					     	});
+
+					});
+						
+					   	
+					$("#welcome").html("Welcome "+localStorage.getItem('user'));
+					$("#logout").click(function(){
+						localStorage.setItem("login","False");
+						snack('Please Wait');
+						window.open("index.html","_parent");
+					});
+					$("#attend").click(function(){
+						snack('Please Wait');
+						window.open("attendance.html","_self");
+					});
+					$("#dues").click(function(){
+						snack('Please Wait');
+						window.open("dues.html","_self");
+					});
+					$("#internal").click(function(){
+						snack('Please Wait');
+						window.open("internal.html","_self");
+					});
+					$("#msg").click(function(){
+						snack('Please Wait');
+						window.open("msg.html","_self");
+					});
+				});
+				</script>
+	    	</center>
+	    </div>
+	  </main>
+	</div>
+</body>
+</html>

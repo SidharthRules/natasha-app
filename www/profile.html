@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<head>
+	<title>Natasha App</title>
+	<link rel="stylesheet" href="css/icon.css">
+	<link rel="stylesheet" href="css/material.indigo-pink.min.css">
+	<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+	<script src="js/material.min.js"></script>
+	<script src="js/jquery-2.2.4.min.js"></script>
+	<script type="text/javascript" src="js/plotly-latest.min.js"></script>
+	<style type="text/css">
+		body{
+			background-color: #f5f5f5; 
+		}
+		.wid90{
+			width: 90%!important;
+		}
+		.page-content{
+			padding: 10px!important;
+   			}
+   		@media screen and (max-width: 1024px){
+   			.mdl-layout__header .mdl-layout__drawer-button {
+		    margin: 7px!important;
+		   }
+		    #quickCommand {display: none};	
+   		}
+   		.mdl-button{
+   			margin: 10px!important;
+   		}
+   		.demo-card-wide.mdl-card {
+		  width: 90%;
+		}
+		.demo-card-wide > .mdl-card__title {
+		  color: #fff;
+		  height: 176px;
+		  background: url('img/bg1.png') center / cover;
+		}
+		.demo-card-wide > .mdl-card__menu {
+		  color: #fff;
+		}
+		.menuImg{
+			width: 100px;
+			padding: 10px;
+		}
+		.mdl-card{
+			min-height: 50px;
+		}
+		.modebar
+		{
+			display: none!important;
+		}
+		#switches,#surcam{
+			display: none;
+		}
+		.profile-square.mdl-card {
+		  width: 280px;
+		  height: 320px;
+		}
+		.profile-square > .mdl-card__title {
+		  color: #fff;
+		  background:
+		    url('img/profile.png') bottom right 15% no-repeat #46B6AC;
+		   background-size: 280px 280px;
+		}
+		.calories-square.mdl-card {
+		  width: 280px;
+		  height: 320px;
+		}
+		.calories-square > .mdl-card__title {
+		  color: #fff;
+		  background:
+		    url('img/food.png') bottom right 15% no-repeat #46B6AC;
+		  background-size: 280px 280px;
+		}
+		.power-square.mdl-card {
+		  width: 280px;
+		  height: 320px;
+		}
+		.power-square > .mdl-card__title {
+		  color: #fff;
+		  background:
+		    url('img/power.png') bottom right 15% no-repeat #46B6AC;
+		    background-size: 280px 280px;
+		}
+		.chat-square.mdl-card {
+		  width: 280px;
+		  height: 320px;
+		}
+		.chat-square > .mdl-card__title {
+		  color: #fff;
+		  background:
+		    url('img/chat.png') bottom right 15% no-repeat #46B6AC;
+		    background-size: 280px 280px;
+		}
+		#welcome{
+			background: rgba(0, 0, 0, 0.5);
+			padding: 0px 10px 0px 10px;
+    		border-bottom-right-radius: 10px;
+		}
+		#profileImg{
+			width: 250px;
+			height: 250px;
+		}
+ 	</style>
+</head>
+
+<body>
+	<!-- Always shows a header, even in smaller screens. -->
+	<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+	  <header class="mdl-layout__header">
+	    <div class="mdl-layout__header-row">
+	      <!-- Title -->
+	      <span class="mdl-layout-title">Project Natasha</span>
+	      <!-- Add spacer, to align navigation to the right -->
+	      <div class="mdl-layout-spacer"></div>
+	      <form action="#" id="quickCommand" onsubmit="handle">
+	      	<div id="hpan" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+			    <input class="mdl-textfield__input" type="text" id="ip">
+			  	<label class="mdl-textfield__label" for="roll" style="color:#fff;">Command Directly From here</label>
+			</div>
+		  </form>
+	     </div>
+	  </header>
+	  <div class="mdl-layout__drawer">
+	    <span class="mdl-layout-title">Project Natasha</span>
+	    <nav class="mdl-navigation">
+	      <a class="mdl-navigation__link" id="logout">Logout</a>
+	    </nav>
+	  </div>
+	  <main class="mdl-layout__content">
+	    <div class="page-content">
+	    	<!-- Accent-colored raised button with ripple -->
+	    	<center>
+	    		<div class="demo-card-wide mdl-card mdl-shadow--2dp">
+				  <div class="mdl-card__title">
+				    <h2 class="mdl-card__title-text" id="welcome" style="background: rgba(0, 0, 0, 0.5);"></h2>
+				  </div>
+				  <div class="mdl-card__supporting-text" id="myText">
+				  	AI powered Smart Home Automation
+				  </div>				  
+				</div>
+
+				<div class='mdl-grid mdl-card wid90 mdl-shadow--2dp' style="margin-top:10px; padding: 10px;">
+					<div class="mdl-cell mdl-cell--3-col">
+						<img id="profileImg" src="img/nopicture.jpg">
+					</div>
+					<div class="mdl-cell mdl-cell--9-col">
+					</div>
+				</div>
+
+				<div class="demo-card-wide mdl-card mdl-shadow--2dp" style="margin-top:10px;">
+					<div class="myLoader" style="padding:10px;">
+    					<img src='img/cube.gif'/>
+    				</div>
+    				<div class="mdl-grid">
+    					<div class="mdl-cell mdl-cell--6-col" id='switches'>
+						  	<div class="mdl-card__actions mdl-card--border" style="min-height:300px;">
+						    	<button id="LOne" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored wid90"></button>
+						    	<button id="LTwo" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored wid90"></button>
+						    	<button id="FOne" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored wid90"></button>
+						    	<button id="FTwo" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored wid90"></button>
+						    	<button id="FThree" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored wid90"></button>
+						  	</div>
+					  	</div>
+					  	<div class="mdl-cell mdl-cell--6-col" id='surcam'>
+					  		<div class="mdl-card__actions mdl-card--border" style="min-height:300px;" id='frame'>
+				    	<div id="hpan" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label wid90">
+						    <input class="mdl-textfield__input" type="text" id="ip">
+						  	<label class="mdl-textfield__label" for="roll">The IP Address</label>
+						</div>
+				    	<button id="hme" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored wid90">Start Home Survelliance</button>
+				  </div>
+					  	</div>
+					</div>
+				</div>
+				 
+				<div class="demo-card-wide mdl-card mdl-shadow--2dp" style="margin-top:10px;">
+				 	<div class='mdl-grid'>
+				 		<div class="mdl-cell mdl-cell--3-col">
+			 			<div class="calories-square mdl-card mdl-shadow--2dp">
+						  <div class="mdl-card__title mdl-card--expand">
+						    <h2 class="mdl-card__title-text"></h2>
+						  </div>
+						  <div class="mdl-card__actions mdl-card--border">
+						    <a id = "dietPage" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+						      DIET Monitor
+						    </a>
+						  </div>
+						</div>
+				 		</div>
+				 		<div class="mdl-cell mdl-cell--3-col">
+				 		<div class="profile-square mdl-card mdl-shadow--2dp">
+						  <div class="mdl-card__title mdl-card--expand">
+						    <h2 class="mdl-card__title-text"></h2>
+						  </div>
+						  <div class="mdl-card__actions mdl-card--border">
+						    <a id = "profilePage" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+						      Profile Updater
+						    </a>
+						  </div>
+						</div>
+				 		</div>
+				 		<div class="mdl-cell mdl-cell--3-col">
+				 		<div class="power-square mdl-card mdl-shadow--2dp">
+						  <div class="mdl-card__title mdl-card--expand">
+						    <h2 class="mdl-card__title-text"></h2>
+						  </div>
+						  <div class="mdl-card__actions mdl-card--border">
+						    <a id = "powerPage" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+						      Power Monitor
+						    </a>
+						  </div>
+						</div>
+				 		</div>
+				 		<div class="mdl-cell mdl-cell--3-col">
+				 		<div class="chat-square mdl-card mdl-shadow--2dp">
+						  <div class="mdl-card__title mdl-card--expand">
+						    <h2 class="mdl-card__title-text"></h2>
+						  </div>
+						  <div class="mdl-card__actions mdl-card--border">
+						    <a id = "natashaPage" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+						      Talk to Natasha
+						    </a>
+						  </div>
+						</div>
+				 		</div>
+				 	</div>
+				</div>
+				 
+				<div id="toast" class="mdl-js-snackbar mdl-snackbar">
+				  <div class="mdl-snackbar__text"></div>
+				  <button class="mdl-snackbar__action" type="button"></button>
+				</div>
+				<script type="text/javascript">
+			 		//var name="",status="";
+					function snack(string) {
+					    var snackbarContainer = document.querySelector('#toast');
+					    var data = { message: string, timeout: 2000 };
+					    snackbarContainer.MaterialSnackbar.showSnackbar(data);
+					}
+					$(document).ready(function(){
+						var url="http://localhost/natasha/count.php?user="+localStorage.getItem('user');
+				     	$.getJSON(url,function(result){
+						   if(result.check=='True')
+						   {
+						   		$('#profileImg').attr(
+    'src',"http://localhost/natasha/images/"+localStorage.getItem('user')+"/"+result.count+".jpg");
+						   		alert('working');
+						   }
+						   else
+						   {
+						   		$('#profileImg').attr('src',"img/nopicture.jpg");
+						   }
+					  });
+					
+					$("#hme").click(function(){
+						var url = document.getElementById('ip').value
+
+						$('#hme').css("display", "none");
+						$('#hpan').html('<iframe style="min-height:280px;" src="'+url+'"/>');
+					});
+						
+					$("#LOne").click(function(){
+						var stat;
+						if(localStorage.getItem("LOne")=="ON")
+						{
+							stat = 'OFF';
+							localStorage.setItem("LOne","OFF");
+						}
+						else
+						{
+							stat = 'ON';
+							localStorage.setItem("LOne","ON");
+						}
+
+						var url="http://localhost/natasha/server/index.php?sid=lone&status="+stat;
+					     	 //prompt("abc",url);
+					     	$.getJSON(url,function(result){
+					     		if(result.check=="True")
+						  	   		{
+						  	   			snack('Please Wait');
+						  	   		}
+						  	   	else
+						  	   	{
+						  	   		snack('Failed...');
+						  	   	}
+					     	});
+
+					});
+
+					$("#LTwo").click(function(){
+						var stat;
+						if(localStorage.getItem("LTwo")=="ON")
+						{
+							stat = 'OFF';
+							localStorage.setItem("LTwo","OFF");
+						}
+						else
+						{
+							stat = 'ON';
+							localStorage.setItem("LTwo","ON");
+						}
+
+						var url="http://localhost/natasha/server/index.php?sid=ltwo&status="+stat;
+					     	 //prompt("abc",url);
+					     	$.getJSON(url,function(result){
+					     		if(result.check=="True")
+						  	   		{
+						  	   			snack('Please Wait');
+						  	   		}
+						  	   	else
+						  	   	{
+						  	   		snack('Failed...');
+						  	   	}
+					     	});
+
+					});
+
+					$("#FOne").click(function(){
+						var stat;
+						if(localStorage.getItem("FOne")=="ON")
+						{
+							stat = 'OFF';
+							localStorage.setItem("FOne","OFF");
+						}
+						else
+						{
+							stat = 'ON';
+							localStorage.setItem("FOne","ON");
+						}
+
+						var url="http://localhost/natasha/server/index.php?sid=fone&status="+stat;
+					     	 //prompt("abc",url);
+					     	$.getJSON(url,function(result){
+					     		if(result.check=="True")
+						  	   		{
+						  	   			snack('Please Wait');
+						  	   		}
+						  	   	else
+						  	   	{
+						  	   		snack('Failed...');
+						  	   	}
+					     	});
+
+					});
+
+					$("#FTwo").click(function(){
+						var stat;
+						if(localStorage.getItem("FTwo")=="ON")
+						{
+							stat = 'OFF';
+							localStorage.setItem("FTwo","OFF");
+						}
+						else
+						{
+							stat = 'ON';
+							localStorage.setItem("FTwo","ON");
+						}
+
+						var url="http://localhost/natasha/server/index.php?sid=ftwo&status="+stat;
+					     	 //prompt("abc",url);
+					     	$.getJSON(url,function(result){
+					     		if(result.check=="True")
+						  	   		{
+						  	   			snack('Please Wait');
+						  	   		}
+						  	   	else
+						  	   	{
+						  	   		snack('Failed...');
+						  	   	}
+					     	});
+
+					});
+
+					$("#FThree").click(function(){
+						var stat;
+						if(localStorage.getItem("FThree")=="ON")
+						{
+							stat = 'OFF';
+							localStorage.setItem("FThree","OFF");
+						}
+						else
+						{
+							stat = 'ON';
+							localStorage.setItem("FThree","ON");
+						}
+
+						var url="http://localhost/natasha/server/index.php?sid=pump&status="+stat;
+					     	 //prompt("abc",url);
+					     	$.getJSON(url,function(result){
+					     		if(result.check=="True")
+						  	   		{
+						  	   			snack('Please Wait');
+						  	   		}
+						  	   	else
+						  	   	{
+						  	   		snack('Failed...');
+						  	   	}
+					     	});
+
+					});
+						
+					   	
+					$("#welcome").html("Welcome "+localStorage.getItem('user'));
+					$("#logout").click(function(){
+						localStorage.setItem("login","False");
+						snack('Please Wait');
+						window.open("index.html","_parent");
+					});
+					$("#powerPage").click(function(){
+						snack('Please Wait');
+						window.open("attendance.html","_self");
+					});
+					$("#profilePage").click(function(){
+						snack('Please Wait');
+						window.open("dues.html","_self");
+					});
+					$("#dietPage").click(function(){
+						snack('Please Wait');
+						window.open("internal.html","_self");
+					});
+					$("#natashaPage").click(function(){
+						snack('Please Wait');
+						window.open("msg.html","_self");
+					});
+				});
+				</script>
+	    	</center>
+	    </div>
+	  </main>
+	</div>
+</body>
+</html>
