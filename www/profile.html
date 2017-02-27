@@ -48,7 +48,7 @@
 		{
 			display: none!important;
 		}
-		#switches,#surcam{
+		#proDets, #save, #passChange{
 			display: none;
 		}
 		.profile-square.mdl-card {
@@ -96,10 +96,6 @@
 			padding: 0px 10px 0px 10px;
     		border-bottom-right-radius: 10px;
 		}
-		#profileImg{
-			width: 250px;
-			height: 250px;
-		}
  	</style>
 </head>
 
@@ -141,35 +137,71 @@
 
 				<div class='mdl-grid mdl-card wid90 mdl-shadow--2dp' style="margin-top:10px; padding: 10px;">
 					<div class="mdl-cell mdl-cell--3-col">
-						<img id="profileImg" src="img/nopicture.jpg">
+						<img id="profileImg" class="wid90 mdl-shadow--2dp" src="img/nopicture.jpg">
 					</div>
 					<div class="mdl-cell mdl-cell--9-col">
+						<div class="myLoader" style="padding:10px;">
+	    					<img src='img/cube.gif'/>
+	    				</div>
+						<div class='mdl-shadow--2dp' id='proDets'>
+							  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label wid90">
+							    <input class="mdl-textfield__input" type="text" id="name">
+							    <label class="mdl-textfield__label" for="name">Your Name</label>
+							  </div><br/>
+							  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label wid90">
+							    <input class="mdl-textfield__input" type="text" id="hob">
+							    <label class="mdl-textfield__label" for="hob">Your Hobbies</label>
+							  </div><br/>
+							  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label wid90">
+							    <input class="mdl-textfield__input" type="text" id="place">
+							    <label class="mdl-textfield__label" for="place">Your Native Place</label>
+							  </div><br/>
+							  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label wid90">
+							    <input class="mdl-textfield__input" type="text" id="cal">
+							    <label class="mdl-textfield__label" for="cal">Per Day Calorie Consumption </label>
+							  </div><br/>
+							</form>
+							<button id="edit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored wid90">Edit Details</button>
+							<button id="save" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored wid90">Save Details</button>
+							<div id='passChange'>                                                          	
+								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label wid90">
+							      <input class="mdl-textfield__input" type="password" id="opas">
+							      <label class="mdl-textfield__label" for="opas">Old Password </label>
+							  	</div><br/>
+							  	<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label wid90">
+							      <input class="mdl-textfield__input" type="password" id="npas">
+							      <label class="mdl-textfield__label" for="npas">New Password </label>
+							  	</div><br/>
+							  	<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label wid90">
+							      <input class="mdl-textfield__input" type="text" id="rnpas">
+							      <label class="mdl-textfield__label" for="rnpas">Retype New Password </label>
+							  	</div><br/>
+							  	<button id="btnPass" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored wid90">Update Password</button>
+							</div>
+						</div>
 					</div>
 				</div>
 
-				<div class="demo-card-wide mdl-card mdl-shadow--2dp" style="margin-top:10px;">
+				<div class="demo-card-wide mdl-card mdl-shadow--2dp wid90" style="margin-top:10px;">
 					<div class="myLoader" style="padding:10px;">
     					<img src='img/cube.gif'/>
     				</div>
-    				<div class="mdl-grid">
-    					<div class="mdl-cell mdl-cell--6-col" id='switches'>
-						  	<div class="mdl-card__actions mdl-card--border" style="min-height:300px;">
-						    	<button id="LOne" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored wid90"></button>
-						    	<button id="LTwo" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored wid90"></button>
-						    	<button id="FOne" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored wid90"></button>
-						    	<button id="FTwo" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored wid90"></button>
-						    	<button id="FThree" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored wid90"></button>
-						  	</div>
-					  	</div>
-					  	<div class="mdl-cell mdl-cell--6-col" id='surcam'>
-					  		<div class="mdl-card__actions mdl-card--border" style="min-height:300px;" id='frame'>
-				    	<div id="hpan" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label wid90">
-						    <input class="mdl-textfield__input" type="text" id="ip">
-						  	<label class="mdl-textfield__label" for="roll">The IP Address</label>
-						</div>
-				    	<button id="hme" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored wid90">Start Home Survelliance</button>
-				  </div>
-					  	</div>
+    				<div class="mdl-grid wid90">
+    					<div class="mdl-cell mdl-cell--11-col" id='imgSet'>
+				  		</div>
+				  	</div>
+				  	<div class="mdl-grid wid90">
+				  		<div class="mdl-cell mdl-cell--11-col" id='imgAdd'>
+				  			<form id="uploadForm" method="post">
+				  				<b>Upload Your Pics Here: </b>
+								<input name="userImage" type="file" class="inputFile" />
+								<input name="user" id='imUser' type="hidden" />
+								<script type="text/javascript">
+									document.getElementById('imUser').value=localStorage.getItem('user');
+								</script>
+								<input type="submit" value="Submit" class="btnSubmit" />
+							</form>
+				  		</div>
 					</div>
 				</div>
 				 
@@ -237,169 +269,158 @@
 					    var data = { message: string, timeout: 2000 };
 					    snackbarContainer.MaterialSnackbar.showSnackbar(data);
 					}
-					$(document).ready(function(){
+
+					function pullProImg(){
 						var url="http://localhost/natasha/count.php?user="+localStorage.getItem('user');
 				     	$.getJSON(url,function(result){
 						   if(result.check=='True')
 						   {
 						   		$('#profileImg').attr(
     'src',"http://localhost/natasha/images/"+localStorage.getItem('user')+"/"+result.count+".jpg");
-						   		alert('working');
 						   }
 						   else
 						   {
 						   		$('#profileImg').attr('src',"img/nopicture.jpg");
 						   }
-					  });
+						   var imgSet = document.getElementById('imgSet');
+						   imgSet.innerHTML="";
+						   for (i=0;i<Number(result.nos);i++)
+						   		imgSet.innerHTML += "<img style='width:150px; padding:5px;' src='http://localhost/natasha/images/"+localStorage.getItem('user')+"/"+(i+1)+".jpg'/>";
+					 	});
+					}
+
+					function pullProData(){
+						var url="http://localhost/natasha/server/index.php?user="+localStorage.getItem('user');
+					 	$.getJSON(url,function(result){
+					 		if(result.check=='True')
+					 		{
+					 			$("#name").attr('value',result.name);
+					 			$("#name").prop('disabled', true);
+					 			$("#name").addClass('is-dirty');
+
+					 			$("#hob").attr('value',result.hob);
+					 			$("#hob").prop('disabled', true);
+					 			$("#hob").addClass('is-dirty');
+
+					 			$("#place").attr('value',result.place);
+					 			$("#place").prop('disabled', true);
+					 			$("#place").addClass('is-dirty');
+
+					 			$("#cal").attr('value',result.cal);
+					 			$("#cal").prop('disabled', true);
+					 			$("#cal").addClass('is-dirty');
+
+					 			pass=result.pass
+					 		}
+					 		else
+					 		{
+					 			snack('Failed !');
+					 		}
+					 		$(".myLoader").hide();
+					 		$("#proDets").show();
+					 	});
+					}
+					$(document).ready(function(){
+						var nos;
+						pullProImg();					 
+				     	var pass="";
+				     	pullProData();
+					 	
+
+					$("#uploadForm").on('submit',(function(e) {
+						e.preventDefault();
+						$.ajax({
+				        	url: "http://localhost/natasha/upload.php",
+							type: "POST",
+							data:  new FormData(this),
+							contentType: false,
+				    	    cache: false,
+							processData:false,
+							success: function(data)
+						    {
+						    	pullProImg();
+						    	snack("Successfully Uploaded")
+						    },
+						  	error: function() 
+					    	{
+					    		snack("Failed!")
+					    	} 	        
+					   });
+					}));
 					
+					$("#btnPass").click(function(){
+						opas=document.getElementById("opas").value;
+						npas=document.getElementById("npas").value;
+						rnpas=document.getElementById("rnpas").value;
+						if(opas==pass)
+						{
+							if(npas==rnpas)
+							{
+								var url="http://localhost/natasha/server/index.php?user="+
+								localStorage.getItem('user')+"&npass="+document.getElementById("npas").value;
+								$.getJSON(url,function(result){
+									if(result.check="True")
+										{
+											pass=npas;
+											snack("Password Chaged Successfully !");
+											$("#edit").show();
+								 			$("#save").hide();
+								 			$("#passChange").hide();
+								 			$("#name").prop('disabled', true);
+											$("#hob").prop('disabled', true);
+											$("#place").prop('disabled', true);
+											$("#cal").prop('disabled', true);
+										}
+								});
+							}
+							else
+								snack('Passwords Don\'t match !');
+						}
+						else
+							snack('Incorrect Old Password');
+					});
+
+					$("#edit").click(function(){
+						$("#edit").hide();
+					 	$("#save").show();
+					 	$("#passChange").show();
+						$("#name").prop('disabled', false);
+						$("#hob").prop('disabled', false);
+						$("#place").prop('disabled', false);
+						$("#cal").prop('disabled', false);
+						$("#cal").addClass('is-dirty');
+					});
+					
+					$("#save").click(function(){
+						var url="http://localhost/natasha/server/index.php?user="+localStorage.getItem('user')+
+						"&name="+document.getElementById('name').value+"&hob="+document.getElementById('hob').value+
+						"&place="+document.getElementById('place').value+"&cal="+document.getElementById('cal').value;
+					 	$.getJSON(url,function(result){
+					 		if(result.check=='True')
+					 		{
+					 			$("#edit").show();
+					 			$("#save").hide();
+					 			$("#passChange").hide();
+					 			$("#name").prop('disabled', true);
+								$("#hob").prop('disabled', true);
+								$("#place").prop('disabled', true);
+								$("#cal").prop('disabled', true);
+					 			snack('Successfully Saved!');
+					 		}
+					 		else
+					 		{
+					 			snack('Failed to save !');
+					 		}
+					 	});
+					});
+
 					$("#hme").click(function(){
 						var url = document.getElementById('ip').value
 
 						$('#hme').css("display", "none");
 						$('#hpan').html('<iframe style="min-height:280px;" src="'+url+'"/>');
 					});
-						
-					$("#LOne").click(function(){
-						var stat;
-						if(localStorage.getItem("LOne")=="ON")
-						{
-							stat = 'OFF';
-							localStorage.setItem("LOne","OFF");
-						}
-						else
-						{
-							stat = 'ON';
-							localStorage.setItem("LOne","ON");
-						}
-
-						var url="http://localhost/natasha/server/index.php?sid=lone&status="+stat;
-					     	 //prompt("abc",url);
-					     	$.getJSON(url,function(result){
-					     		if(result.check=="True")
-						  	   		{
-						  	   			snack('Please Wait');
-						  	   		}
-						  	   	else
-						  	   	{
-						  	   		snack('Failed...');
-						  	   	}
-					     	});
-
-					});
-
-					$("#LTwo").click(function(){
-						var stat;
-						if(localStorage.getItem("LTwo")=="ON")
-						{
-							stat = 'OFF';
-							localStorage.setItem("LTwo","OFF");
-						}
-						else
-						{
-							stat = 'ON';
-							localStorage.setItem("LTwo","ON");
-						}
-
-						var url="http://localhost/natasha/server/index.php?sid=ltwo&status="+stat;
-					     	 //prompt("abc",url);
-					     	$.getJSON(url,function(result){
-					     		if(result.check=="True")
-						  	   		{
-						  	   			snack('Please Wait');
-						  	   		}
-						  	   	else
-						  	   	{
-						  	   		snack('Failed...');
-						  	   	}
-					     	});
-
-					});
-
-					$("#FOne").click(function(){
-						var stat;
-						if(localStorage.getItem("FOne")=="ON")
-						{
-							stat = 'OFF';
-							localStorage.setItem("FOne","OFF");
-						}
-						else
-						{
-							stat = 'ON';
-							localStorage.setItem("FOne","ON");
-						}
-
-						var url="http://localhost/natasha/server/index.php?sid=fone&status="+stat;
-					     	 //prompt("abc",url);
-					     	$.getJSON(url,function(result){
-					     		if(result.check=="True")
-						  	   		{
-						  	   			snack('Please Wait');
-						  	   		}
-						  	   	else
-						  	   	{
-						  	   		snack('Failed...');
-						  	   	}
-					     	});
-
-					});
-
-					$("#FTwo").click(function(){
-						var stat;
-						if(localStorage.getItem("FTwo")=="ON")
-						{
-							stat = 'OFF';
-							localStorage.setItem("FTwo","OFF");
-						}
-						else
-						{
-							stat = 'ON';
-							localStorage.setItem("FTwo","ON");
-						}
-
-						var url="http://localhost/natasha/server/index.php?sid=ftwo&status="+stat;
-					     	 //prompt("abc",url);
-					     	$.getJSON(url,function(result){
-					     		if(result.check=="True")
-						  	   		{
-						  	   			snack('Please Wait');
-						  	   		}
-						  	   	else
-						  	   	{
-						  	   		snack('Failed...');
-						  	   	}
-					     	});
-
-					});
-
-					$("#FThree").click(function(){
-						var stat;
-						if(localStorage.getItem("FThree")=="ON")
-						{
-							stat = 'OFF';
-							localStorage.setItem("FThree","OFF");
-						}
-						else
-						{
-							stat = 'ON';
-							localStorage.setItem("FThree","ON");
-						}
-
-						var url="http://localhost/natasha/server/index.php?sid=pump&status="+stat;
-					     	 //prompt("abc",url);
-					     	$.getJSON(url,function(result){
-					     		if(result.check=="True")
-						  	   		{
-						  	   			snack('Please Wait');
-						  	   		}
-						  	   	else
-						  	   	{
-						  	   		snack('Failed...');
-						  	   	}
-					     	});
-
-					});
-						
-					   	
+			   	
 					$("#welcome").html("Welcome "+localStorage.getItem('user'));
 					$("#logout").click(function(){
 						localStorage.setItem("login","False");
@@ -408,15 +429,15 @@
 					});
 					$("#powerPage").click(function(){
 						snack('Please Wait');
-						window.open("attendance.html","_self");
+						window.open("power.html","_self");
 					});
 					$("#profilePage").click(function(){
 						snack('Please Wait');
-						window.open("dues.html","_self");
+						window.open("profile.html","_self");
 					});
 					$("#dietPage").click(function(){
 						snack('Please Wait');
-						window.open("internal.html","_self");
+						window.open("diet.html","_self");
 					});
 					$("#natashaPage").click(function(){
 						snack('Please Wait');

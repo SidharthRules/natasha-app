@@ -462,7 +462,8 @@
 						});
 
 					$("#graph").click(function(){
-						$('#stats').html("");
+						var label=[],arr=[],dur=[],dmin=[];
+				     	$('#stats').html("");
 						$('.myLoader').show();
 						$('#tabData').show();
 						if(enDate == "")
@@ -471,8 +472,7 @@
 							var url="http://localhost/natasha/server/index.php?date1="+stDate+"&date2="+enDate;
 					    var block = document.getElementById("myTable1");
 					    block.innerHTML ="";
-					    var label=[],arr=[],dur=[],dmin=[];
-				     	$.getJSON(url,function(result){
+					    $.getJSON(url,function(result){
 						//alert(result.LOne+result.FOne+result.LTwo+result.FTwo+result.FThree+"test");
 					  		$.each(result, function(i, field){
 					  			var ontime = diffTime(field.stop, field.start)
@@ -484,7 +484,6 @@
 								    					"<td class='mdl-data-table__cell--non-numeric'>"+field.stop+"</td>" +
 								       					"<td class='mdl-data-table__cell--non-numeric'>"+ontime.substr(0,ontime.indexOf(':'))+"h "+ontime.substr(ontime.indexOf(':')+1)+"m</td></tr>";
 								block.innerHTML +=ab;
-					  			
 					  		});
 					  		for (j=0;j<arr.length;j++)
 					  		{
@@ -506,6 +505,7 @@
 					  			dur.push(milliTime(sum));
 					  		}
 					  		//lock.innerHTML += arr+"<br/>"+label+"<br/>"+dur+"<br/>"+dmin;
+
 					  	    $('.myLoader').hide();
 					  	    //Assigning X and Y axes to the data var, and plotting the graph.
 					      	var data = [{
