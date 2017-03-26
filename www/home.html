@@ -95,6 +95,12 @@
 			padding: 0px 10px 0px 10px;
     		border-bottom-right-radius: 10px;
 		}
+		#navImg
+		{
+			border-radius: 100%;
+			width:150px;
+			height: 150px;
+		}
  	</style>
 </head>
 
@@ -117,8 +123,15 @@
 	  </header>
 	  <div class="mdl-layout__drawer">
 	    <span class="mdl-layout-title">Project Natasha</span>
+	    <center><img id="navImg" class="mdl-shadow--2dp" src="img/nopicture.jpg"></center>
 	    <nav class="mdl-navigation">
+	      <a class="mdl-navigation__link" id="homePage">Home</a>
+	      <a class="mdl-navigation__link" id="profilePage">Profile Updater</a>
+	      <a class="mdl-navigation__link" id="powerPage">Power Monitor</a>
+	      <a class="mdl-navigation__link" id="dietPage">Diet Monitor</a>
+	      <a class="mdl-navigation__link" id="natashaPage">Settings</a>
 	      <a class="mdl-navigation__link" id="logout">Logout</a>
+	      <a class="mdl-navigation__link" id="navAbout">About</a>
 	    </nav>
 	  </div>
 	  <main class="mdl-layout__content">
@@ -205,7 +218,7 @@
 						  </div>
 						  <div class="mdl-card__actions mdl-card--border">
 						    <a id = "natashaPage" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-						      Talk to Natasha
+						      Settings
 						    </a>
 						  </div>
 						</div>
@@ -224,6 +237,18 @@
 					    var data = { message: string, timeout: 2000 };
 					    snackbarContainer.MaterialSnackbar.showSnackbar(data);
 					}
+
+					function pullNavImg(){
+						var url="http://localhost/natasha/count.php?user="+localStorage.getItem('user');
+				     	$.getJSON(url,function(result){
+						   if(result.check=='True')
+						   		$('#navImg').attr(
+    'src',"http://localhost/natasha/images/"+localStorage.getItem('user')+"/"+result.count+".jpg");	
+						   else
+						   		$('#navImg').attr('src',"img/nopicture.jpg");
+					 	});
+					}
+
 					$(document).ready(function(){
 						setInterval(function(){
 							var url="http://localhost/natasha/server/index.php?status";
@@ -289,6 +314,8 @@
 							  	  	$('#surcam').show();
 							  });
 						     }, 5000);
+
+					pullNavImg();
 					
 					$("#hme").click(function(){
 						var url = document.getElementById('ip').value
@@ -444,6 +471,10 @@
 						snack('Please Wait');
 						window.open("index.html","_parent");
 					});
+					$("#homePage").click(function(){
+						snack('Please Wait');
+						window.open("home.html","_self");
+					});
 					$("#powerPage").click(function(){
 						snack('Please Wait');
 						window.open("power.html","_self");
@@ -458,7 +489,10 @@
 					});
 					$("#natashaPage").click(function(){
 						snack('Please Wait');
-						window.open("msg.html","_self");
+						window.open("settings.html","_self");
+					});
+					$("#navAbout").click(function(){
+						snack('Module By S!D');
 					});
 				});
 				</script>

@@ -91,10 +91,65 @@
 		    url('img/chat.png') bottom right 15% no-repeat #46B6AC;
 		    background-size: 280px 280px;
 		}
+		.predicates{
+			text-align: left;
+		    padding: 5px;
+		    margin: 5px;
+		    border-radius: 2px;
+		    border: 1px solid rgba(0,0,0,.1);
+		}
+		.predicates > a{
+			color: rgba(0,0,0,.54);
+		    text-transform: lowercase;
+		    margin-right: 10px;
+		}
+		/* Style the buttons that are used to open and close the accordion panel */
+		button.accordion {
+		    background-color: #eee;
+		    color: #444;
+		    cursor: pointer;
+		    padding: 18px;
+		    width: 100%;
+		    text-align: left;
+		    border: none;
+		    outline: none;
+		    transition: 0.4s;
+		}
+
+		/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+		button.accordion.active, button.accordion:hover {
+		    background-color: #ddd;
+		}
+
+		/* Style the accordion panel. Note: hidden by default */
+		div.panel {
+		     padding: 0 18px;
+		    background-color: white;
+		    max-height: 0;
+		    overflow: hidden;
+		    transition: max-height 0.2s ease-out;
+		}
+		button.accordion:after {
+		    content: '\02795'; /* Unicode character for "plus" sign (+) */
+		    font-size: 13px;
+		    color: #777;
+		    float: right;
+		    margin-left: 5px;
+		}
+
+		button.accordion.active:after {
+		    content: "\2796"; /* Unicode character for "minus" sign (-) */
+		}
 		#welcome{
 			background: rgba(0, 0, 0, 0.5);
 			padding: 0px 10px 0px 10px;
     		border-bottom-right-radius: 10px;
+		}
+		#navImg
+		{
+			border-radius: 100%;
+			width:150px;
+			height: 150px;
 		}
  	</style>
 </head>
@@ -118,8 +173,15 @@
 	  </header>
 	  <div class="mdl-layout__drawer">
 	    <span class="mdl-layout-title">Project Natasha</span>
+	    <center><img id="navImg" class="mdl-shadow--2dp" src="img/nopicture.jpg"></center>
 	    <nav class="mdl-navigation">
+	      <a class="mdl-navigation__link" id="homePage">Home</a>
+	      <a class="mdl-navigation__link" id="profilePage">Profile Updater</a>
+	      <a class="mdl-navigation__link" id="powerPage">Power Monitor</a>
+	      <a class="mdl-navigation__link" id="dietPage">Diet Monitor</a>
+	      <a class="mdl-navigation__link" id="natashaPage">Settings</a>
 	      <a class="mdl-navigation__link" id="logout">Logout</a>
+	      <a class="mdl-navigation__link" id="navAbout">About</a>
 	    </nav>
 	  </div>
 	  <main class="mdl-layout__content">
@@ -176,24 +238,24 @@
 							      <input class="mdl-textfield__input" type="text" id="rnpas">
 							      <label class="mdl-textfield__label" for="rnpas">Retype New Password </label>
 							  	</div><br/>
-							  	<button id="btnPass" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored wid90">Update Password</button>
+							  	<button id="btnPass" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored wid90">Update Password </button>
 							</div>
 						</div>
 					</div>
 				</div>
 
-				<div class="demo-card-wide mdl-card mdl-shadow--2dp wid90" style="margin-top:10px;">
+				<div class="mdl-card mdl-shadow--2dp wid90" style="margin-top:10px;">
 					<div class="myLoader" style="padding:10px;">
     					<img src='img/cube.gif'/>
     				</div>
     				<div class="mdl-grid wid90">
-    					<div class="mdl-cell mdl-cell--11-col" id='imgSet'>
+    					<div class="mdl-cell mdl-cell--12-col mdl-shadow--2dp" id='imgSet'>
 				  		</div>
 				  	</div>
 				  	<div class="mdl-grid wid90">
 				  		<div class="mdl-cell mdl-cell--11-col" id='imgAdd'>
 				  			<form id="uploadForm" method="post">
-				  				<b>Upload Your Pics Here: </b>
+				  				<b>Your photos for face training: </b>
 								<input name="userImage" type="file" class="inputFile" />
 								<input name="user" id='imUser' type="hidden" />
 								<script type="text/javascript">
@@ -204,6 +266,48 @@
 				  		</div>
 					</div>
 				</div>
+
+				<div class="mdl-grid mdl-card wid90 mdl-shadow--2dp" style="margin-top:10px; padding: 10px;">
+			 		<div class="mdl-cell mdl-cell--5-col" id='proPredicates'>
+			 			<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label wid90">
+					      <input class="mdl-textfield__input" type="text" id="predicate">
+					      <label class="mdl-textfield__label" for="predicate">Predicate Phrase</label>
+					  	</div><br/>
+					  	<div class="mdl-grid" style="text-align: left;">
+			 				<div class="mdl-cell mdl-cell--6-col">
+			 					<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="tg_lone">
+									<span class="mdl-switch__label">1st Light</span>
+								  	<input type="checkbox" id="tg_lone" class="mdl-switch__input">
+								</label>
+								<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="tg_fone">
+									<span class="mdl-switch__label">1st Fan</span>
+								  	<input type="checkbox" id="tg_fone" class="mdl-switch__input">
+								</label>
+								<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="tg_pump">
+									<span class="mdl-switch__label">Pump</span>
+								  	<input type="checkbox" id="tg_pump" class="mdl-switch__input">
+								</label>
+			 				</div>
+			 				<div class="mdl-cell mdl-cell--6-col">
+			 					<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="tg_ltwo">
+									<span class="mdl-switch__label">2nd Light</span>
+								  	<input type="checkbox" id="tg_ltwo" class="mdl-switch__input">
+								</label>
+								<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="tg_ftwo">
+									<span class="mdl-switch__label">2nd Fan</span>
+								  	<input type="checkbox" id="tg_ftwo" class="mdl-switch__input">
+								</label>
+			 				</div>
+			 			</div>	
+			 			<button id="btnSave" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored wid90">Save Predicate </button>
+			 		</div>
+			 		<div class="mdl-cell mdl-cell--7-col">
+			 			<!--  -->
+			 			<div  id='proPredicatesDetails'>
+			 				<h4>Save your first predicate to get started.</h4>
+			 			</div>
+			 		</div>
+			 	</div>
 				 
 				<div class="demo-card-wide mdl-card mdl-shadow--2dp" style="margin-top:10px;">
 				 	<div class='mdl-grid'>
@@ -250,7 +354,7 @@
 						  </div>
 						  <div class="mdl-card__actions mdl-card--border">
 						    <a id = "natashaPage" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-						      Talk to Natasha
+						      Settings
 						    </a>
 						  </div>
 						</div>
@@ -270,6 +374,17 @@
 					    snackbarContainer.MaterialSnackbar.showSnackbar(data);
 					}
 
+					function pullNavImg(){
+						var url="http://localhost/natasha/count.php?user="+localStorage.getItem('user');
+				     	$.getJSON(url,function(result){
+						   if(result.check=='True')
+						   		$('#navImg').attr(
+    'src',"http://localhost/natasha/images/"+localStorage.getItem('user')+"/"+result.count+".jpg");	
+						   else
+						   		$('#navImg').attr('src',"img/nopicture.jpg");
+					 	});
+					}
+
 					function pullProImg(){
 						var url="http://localhost/natasha/count.php?user="+localStorage.getItem('user');
 				     	$.getJSON(url,function(result){
@@ -285,7 +400,7 @@
 						   var imgSet = document.getElementById('imgSet');
 						   imgSet.innerHTML="";
 						   for (i=0;i<Number(result.nos);i++)
-						   		imgSet.innerHTML += "<img style='width:150px; padding:5px;' src='http://localhost/natasha/images/"+localStorage.getItem('user')+"/"+(i+1)+".jpg'/>";
+						   		imgSet.innerHTML += "<img style='height:150px; padding:5px;' src='http://localhost/natasha/images/"+localStorage.getItem('user')+"/"+(i+1)+".jpg'/>";
 					 	});
 					}
 
@@ -296,19 +411,19 @@
 					 		{
 					 			$("#name").attr('value',result.name);
 					 			$("#name").prop('disabled', true);
-					 			$("#name").addClass('is-dirty');
+					 			$("#name").parent().addClass('is-dirty');
 
 					 			$("#hob").attr('value',result.hob);
 					 			$("#hob").prop('disabled', true);
-					 			$("#hob").addClass('is-dirty');
+					 			$("#hob").parent().addClass('is-dirty');
 
 					 			$("#place").attr('value',result.place);
 					 			$("#place").prop('disabled', true);
-					 			$("#place").addClass('is-dirty');
+					 			$("#place").parent().addClass('is-dirty');
 
 					 			$("#cal").attr('value',result.cal);
 					 			$("#cal").prop('disabled', true);
-					 			$("#cal").addClass('is-dirty');
+					 			$("#cal").parent().addClass('is-dirty');
 
 					 			pass=result.pass
 					 		}
@@ -320,12 +435,54 @@
 					 		$("#proDets").show();
 					 	});
 					}
+
+					function delPredicate(a)
+					{
+						var url="http://localhost/natasha/server/index.php?delPre="+a;
+						$.getJSON(url,function(result){
+							if(result.check=='True')
+							{
+								snack('Deleted Successfully!');
+								pullPredicates();
+							}
+							else
+								snack('Deletion Failed !');
+						});
+					}
+
+					function pullPredicates(){
+						var url="http://localhost/natasha/server/index.php?user="+localStorage.getItem('user')+"&showPredicate";
+						var block = document.getElementById('proPredicatesDetails');
+						$.getJSON(url,function(result){
+								if(result.length>0)
+									block.innerHTML="";
+							$.each(result, function(i, field){
+								block.innerHTML +="<button class='accordion'>"+field.predicate+"</button><div class='panel'><p>"+"1st Light [<b>"+field.lone+"</b>], "+"1st Fan [<b>"+field.fone+"</b>], "+"2nd Light [<b>"+field.ltwo+"</b>], "+"2nd Fan [<b>"+field.ftwo+"</b>], "+"Pump [<b>"+field.pump+"</b>] "+". [<a onclick='delPredicate(\""+field.pid+"\")'>Delete</a>]</p></div>";
+							});
+							var acc = document.getElementsByClassName("accordion");
+							var k;
+
+							for (k = 0; k < acc.length; k++) {
+							  acc[k].onclick = function() {
+							    this.classList.toggle("active");
+							    var panel = this.nextElementSibling;
+							    if (panel.style.maxHeight){
+							      panel.style.maxHeight = null;
+							    } else {
+							      panel.style.maxHeight = panel.scrollHeight + "px";
+							    } 
+							  }
+							}
+						});
+					}
+
 					$(document).ready(function(){
 						var nos;
 						pullProImg();					 
 				     	var pass="";
 				     	pullProData();
-					 	
+				     	pullPredicates();	
+				     	pullNavImg();				 	
 
 					$("#uploadForm").on('submit',(function(e) {
 						e.preventDefault();
@@ -348,6 +505,46 @@
 					   });
 					}));
 					
+					$("#btnSave").click(function(){
+						//Setting the value of serial switching.
+						var serial = "";
+						if($('#tg_lone').is(':checked'))
+							serial+=1;
+						else
+							serial+=0;
+						if($('#tg_fone').is(':checked'))
+							serial+=1;
+						else
+							serial+=0;
+						if($('#tg_ltwo').is(':checked'))
+							serial+=1;
+						else
+							serial+=0;
+						if($('#tg_ftwo').is(':checked'))
+							serial+=1;
+						else
+							serial+=0;
+						if($('#tg_pump').is(':checked'))
+							serial+=1;
+						else
+							serial+=0;
+
+						var url="http://localhost/natasha/server/index.php?user="+localStorage.getItem('user')+
+						"&predicate="+document.getElementById('predicate').value+"&serial="+serial;
+						$.getJSON(url,function(result){
+							if(result.check='True')
+								{
+									snack('Successfully added predicate !');
+									document.getElementById('predicate').value="";
+									$('#predicate').parent().removeClass('is-dirty');
+									pullPredicates();
+
+								}
+							else
+								snack('Failed Adding !');
+						});
+					});
+
 					$("#btnPass").click(function(){
 						opas=document.getElementById("opas").value;
 						npas=document.getElementById("npas").value;
@@ -359,7 +556,7 @@
 								var url="http://localhost/natasha/server/index.php?user="+
 								localStorage.getItem('user')+"&npass="+document.getElementById("npas").value;
 								$.getJSON(url,function(result){
-									if(result.check="True")
+									if(result.check=="True")
 										{
 											pass=npas;
 											snack("Password Chaged Successfully !");
@@ -441,7 +638,10 @@
 					});
 					$("#natashaPage").click(function(){
 						snack('Please Wait');
-						window.open("msg.html","_self");
+						window.open("settings.html","_self");
+					});
+					$("#navAbout").click(function(){
+						snack('Module By S!D');
 					});
 				});
 				</script>

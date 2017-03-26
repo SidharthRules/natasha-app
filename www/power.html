@@ -107,10 +107,17 @@
 		    border-top: none;
 		    border-left: none;
 		    border-right: none;
+		    background: white;
 		    border-color: #3f51b5;
 		}
 		#mySchedule select:focus{
 			outline: none;
+		}
+		#navImg
+		{
+			border-radius: 100%;
+			width:150px;
+			height: 150px;
 		}
  	</style>
  	<script type="text/javascript">
@@ -177,8 +184,15 @@
 	  </header>
 	  <div class="mdl-layout__drawer">
 	    <span class="mdl-layout-title">Project Natasha</span>
+	    <center><img id="navImg" class="mdl-shadow--2dp" src="img/nopicture.jpg"></center>
 	    <nav class="mdl-navigation">
+	      <a class="mdl-navigation__link" id="homePage">Home</a>
+	      <a class="mdl-navigation__link" id="profilePage">Profile Updater</a>
+	      <a class="mdl-navigation__link" id="powerPage">Power Monitor</a>
+	      <a class="mdl-navigation__link" id="dietPage">Diet Monitor</a>
+	      <a class="mdl-navigation__link" id="natashaPage">Settings</a>
 	      <a class="mdl-navigation__link" id="logout">Logout</a>
+	      <a class="mdl-navigation__link" id="navAbout">About</a>
 	    </nav>
 	  </div>
 	  <main class="mdl-layout__content">
@@ -196,22 +210,22 @@
 
 				
 				<div class='mdl-grid mdl-card wid90 mdl-shadow--2dp' style="margin-top:10px; padding: 10px;">
-					 	<div class="mdl-cell mdl-cell--4-col">
-					 		<div class="calendar"></div>
-							<div class="box" style="padding: 5px;"></div>	
-							<button id="graph" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored wid90">Show Consumption Details</button>
-					 	</div>
-					 	<div class="mdl-cell mdl-cell--8-col">
-					 		<div class="myLoader" style="padding:10px;">
-		    					<img src='img/cube.gif'/>
-		    					<h1>Loading ...</h1>
-		    				</div>
-		    				<div id="stats" style="overflow-x:auto;">
-						 		<h1>Choose the Date/Range</h1>
-						 		<h2>To Show Power Consumption Details</h2>
-					 		</div>
-					 	</div>
-					</div>
+				 	<div class="mdl-cell mdl-cell--4-col">
+				 		<div class="calendar"></div>
+						<div class="box" style="padding: 5px;"></div>	
+						<button id="graph" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored wid90">Show Consumption Details</button>
+				 	</div>
+				 	<div class="mdl-cell mdl-cell--8-col">
+				 		<div class="myLoader" style="padding:10px;">
+	    					<img src='img/cube.gif'/>
+	    					<h1>Loading ...</h1>
+	    				</div>
+	    				<div id="stats" style="overflow-x:auto;">
+					 		<h1>Choose the Date/Range</h1>
+					 		<h2>To Show Power Consumption Details</h2>
+				 		</div>
+				 	</div>
+				</div>
 				
 				 <div class="demo-card-wide mdl-card mdl-shadow--2dp wid90" id= "tabData" style="overflow-x:auto;margin-top:10px; padding: 10px;">
 				 	<h3 >Power Consumpition Detailed Table</h3>
@@ -357,7 +371,7 @@
 						  </div>
 						  <div class="mdl-card__actions mdl-card--border">
 						    <a id = "natashaPage" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-						      Talk to Natasha
+						      Settings
 						    </a>
 						  </div>
 						</div>
@@ -375,6 +389,17 @@
 					    var snackbarContainer = document.querySelector('#toast');
 					    var data = { message: string, timeout: 2000 };
 					    snackbarContainer.MaterialSnackbar.showSnackbar(data);
+					}
+
+					function pullNavImg(){
+						var url="http://localhost/natasha/count.php?user="+localStorage.getItem('user');
+				     	$.getJSON(url,function(result){
+						   if(result.check=='True')
+						   		$('#navImg').attr(
+    'src',"http://localhost/natasha/images/"+localStorage.getItem('user')+"/"+result.count+".jpg");	
+						   else
+						   		$('#navImg').attr('src',"img/nopicture.jpg");
+					 	});
 					}
 
 					function diffTime(a,b)
@@ -536,7 +561,7 @@
 					  });
 					});
 
-					
+					pullNavImg();
 						
 					$('#schedule_btn').click(function(){
 
@@ -619,7 +644,10 @@
 					});
 					$("#natashaPage").click(function(){
 						snack('Please Wait');
-						window.open("msg.html","_self");
+						window.open("settings.html","_self");
+					});
+					$("#navAbout").click(function(){
+						snack('Module By S!D');
 					});
 				});
 				</script>

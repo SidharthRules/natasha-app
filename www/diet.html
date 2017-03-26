@@ -5,7 +5,10 @@
 	<link rel="stylesheet" href="css/material.indigo-pink.min.css">
 	<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
 	<script src="js/material.min.js"></script>
-	<script src="js/jquery-2.2.4.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/pignose.calendar.min.css" />
+	<script type="text/javascript" src="js/jquery-2.2.4.min.js"></script>
+	<script type="text/javascript" src="js/moment.min.js"></script>
+	<script type="text/javascript" src="js/pignose.calendar.min.js"></script>
 	<script type="text/javascript" src="js/plotly-latest.min.js"></script>
 	<style type="text/css">
 		body{
@@ -36,7 +39,7 @@
 		}
 		.demo-card-wide > .mdl-card__menu {
 		  color: #fff;
-		}
+		}	
 		.menuImg{
 			width: 100px;
 			padding: 10px;
@@ -91,15 +94,124 @@
 		    url('img/chat.png') bottom right 15% no-repeat #46B6AC;
 		    background-size: 280px 280px;
 		}
+		/* Style the buttons that are used to open and close the accordion panel */
+		button.accordion, button.meds {
+		    background-color: #eee;
+		    color: #444;
+		    cursor: pointer;
+		    padding: 18px;
+		    width: 100%;
+		    text-align: left;
+		    border: none;
+		    outline: none;
+		    transition: 0.4s;
+		}
+
+		/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+		button.accordion.active, button.accordion:hover, button.meds:hover {
+		    background-color: #ddd;
+		}
+
+		/* Style the accordion panel. Note: hidden by default */
+		div.panel {
+		     padding: 0 18px;
+		    background-color: white;
+		    max-height: 0;
+		    overflow: hidden;
+		    transition: max-height 0.2s ease-out;
+		}
+		button.accordion:after {
+		    content: '\02795'; /* Unicode character for "plus" sign (+) */
+		    font-size: 13px;
+		    color: #777;
+		    float: right;
+		    margin-left: 5px;
+		}
+
+		button.meds:after {
+		    font-size: 13px;
+		    color: #777;
+		    float: right;
+		    margin-left: 5px;
+		}
+
+		button.accordion.active:after {
+		    content: "\2796"; /* Unicode character for "minus" sign (-) */
+		}
+		.mdl-grid select{
+			min-height: 40px;
+		    font-size: 20px;
+		    padding: 5px;
+		    margin-bottom: 10px;
+		    border-top: none;
+		    border-left: none;
+		    border-right: none;
+		    border-color: #3f51b5;
+		}
+		.mdl-grid select:focus{
+			outline: none;
+		}
 		#welcome{
 			background: rgba(0, 0, 0, 0.5);
 			padding: 0px 10px 0px 10px;
     		border-bottom-right-radius: 10px;
 		}
+		#navImg
+		{
+			border-radius: 100%;
+			width:150px;
+			height: 150px;
+		}
+		.myLoader, #tabData, #foodTab ,#tabSchedule{
+			display: none;
+		}
  	</style>
-</head>
+ 	<script type="text/javascript">
+	//<![CDATA[
+	var stDate="",enDate="";
+	$(function() {
+		function onClickHandler(date, obj) {
+			/**
+			 * @date is an array which be included dates(clicked date at first index)
+			 * @obj is an object which stored calendar interal data.
+			 * @obj.calendar is an element reference.
+			 * @obj.storage.activeDates is all toggled data, If you use toggle type calendar.
+			 */
 
+			var $calendar = obj.calendar;
+			var $box = $calendar.parent().siblings('.box').show();
+			var text = 'Date:  ';
+
+			if(date[0] !== null) {
+				text += date[0].format('YYYY-MM-DD');
+				stDate = date[0].format('YYYY-MM-DD');
+			}
+
+			if(date[0] !== null && date[1] !== null) {
+				text += ' ~ ';
+			} else if(date[0] === null && date[1] == null) {
+				text += 'nothing';
+			}
+
+			if(date[1] !== null) {
+				text += date[1].format('YYYY-MM-DD');
+				enDate = date[1].format('YYYY-MM-DD');
+			}
+
+			$box.text(text);
+		}
+
+		// Multiple picker type Calendar
+		$('.calendar').pignoseCalendar({
+			multiple: true,
+			select: onClickHandler
+		});
+	});
+	//]]>
+	</script>
+</head>
 <body>
+<head titile=""
 	<!-- Always shows a header, even in smaller screens. -->
 	<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
 	  <header class="mdl-layout__header">
@@ -118,8 +230,15 @@
 	  </header>
 	  <div class="mdl-layout__drawer">
 	    <span class="mdl-layout-title">Project Natasha</span>
+	    <center><img id="navImg" class="mdl-shadow--2dp" src="img/nopicture.jpg"></center>
 	    <nav class="mdl-navigation">
+	      <a class="mdl-navigation__link" id="homePage">Home</a>
+	      <a class="mdl-navigation__link" id="profilePage">Profile Updater</a>
+	      <a class="mdl-navigation__link" id="powerPage">Power Monitor</a>
+	      <a class="mdl-navigation__link" id="dietPage">Diet Monitor</a>
+	      <a class="mdl-navigation__link" id="natashaPage">Settings</a>
 	      <a class="mdl-navigation__link" id="logout">Logout</a>
+	      <a class="mdl-navigation__link" id="navAbout">About</a>
 	    </nav>
 	  </div>
 	  <main class="mdl-layout__content">
@@ -135,31 +254,193 @@
 				  </div>				  
 				</div>
 
-				<div class="demo-card-wide mdl-card mdl-shadow--2dp" style="margin-top:10px;">
-					<div class="myLoader" style="padding:10px;">
-    					<img src='img/cube.gif'/>
-    				</div>
-    				<div class="mdl-grid">
-    					<div class="mdl-cell mdl-cell--6-col" id='switches'>
-						  	<div class="mdl-card__actions mdl-card--border" style="min-height:300px;">
-						    	<button id="LOne" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored wid90"></button>
-						    	<button id="LTwo" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored wid90"></button>
-						    	<button id="FOne" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored wid90"></button>
-						    	<button id="FTwo" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored wid90"></button>
-						    	<button id="FThree" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored wid90"></button>
-						  	</div>
-					  	</div>
-					  	<div class="mdl-cell mdl-cell--6-col" id='surcam'>
-					  		<div class="mdl-card__actions mdl-card--border" style="min-height:300px;" id='frame'>
-				    	<div id="hpan" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label wid90">
-						    <input class="mdl-textfield__input" type="text" id="ip">
-						  	<label class="mdl-textfield__label" for="roll">The IP Address</label>
+				<div class='mdl-grid mdl-card wid90 mdl-shadow--2dp' style="margin-top:10px; padding: 10px;">
+					<div class="mdl-cell mdl-cell--3-col">
+						<img id="profileImg" class="wid90 mdl-shadow--2dp" src="img/nopicture.jpg">
+						<div class="wid90" style="text-align: left;">
+							<br/><b id='getName'>Name: </b>
+							<br/><b id='getCal'>Calories: </b>
 						</div>
-				    	<button id="hme" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored wid90">Start Home Survelliance</button>
-				  </div>
-					  	</div>
+					</div>
+					<div class="mdl-cell mdl-cell--9-col">
+						<div class='mdl-shadow--2dp'>
+							<button class='accordion'>Tiffin Preferences</button>
+							<div class='panel' style="overflow-y:auto;">
+								<p>
+									<div class="mdl-grid mdl-shadow--2dp">
+										<div class="mdl-cell mdl-cell--6-col">
+											<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label wid90">
+												<input class="mdl-textfield__input" type="text" id="tiffin_name">
+												<label class="mdl-textfield__label" for="tiffin_name">Name Of the food</label>
+											</div><br/>
+											<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label wid90">
+												<input class="mdl-textfield__input" type="text" id="tiffin_cal">
+												<label class="mdl-textfield__label" for="tiffin_cal">Calories consumed by it</label>
+											</div><br/>
+											<button id="save_tiffin" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored wid90">Add Item</button>
+										</div>
+										<div class="mdl-cell mdl-cell--6-col">
+											<table class="mdl-data-table mdl-js-data-table" style="width:100%;">
+											<thead>
+											   	<tr>
+												   <th class="mdl-data-table__cell--non-numeric">Food Name</th>
+												   <th class="mdl-data-table__cell--non-numeric">Calories </th>
+												</tr>
+											</thead>
+													  <tbody id="tiffin_sec">
+													  </tbody>
+										</table>
+										</div>
+									</div>
+								</p>
+							</div>
+							<button class='accordion'>Lunch Preferences</button>
+							<div class='panel' >
+								<p>
+									<div class="mdl-grid mdl-shadow--2dp">
+										<div class="mdl-cell mdl-cell--6-col">
+											<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label wid90">
+												<input class="mdl-textfield__input" type="text" id="lunch_name">
+												<label class="mdl-textfield__label" for="lunch_name">Name Of the food</label>
+											</div><br/>
+											<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label wid90">
+												<input class="mdl-textfield__input" type="text" id="lunch_cal">
+												<label class="mdl-textfield__label" for="lunch_cal">Calories consumed by it</label>
+											</div><br/>
+											<button id="save_lunch" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored wid90">Add Item</button>
+										</div>
+										<div class="mdl-cell mdl-cell--6-col">
+											<table class="mdl-data-table mdl-js-data-table" style="width:100%;">
+												<thead>
+												   	<tr>
+													   <th class="mdl-data-table__cell--non-numeric">Food Name</th>
+													   <th class="mdl-data-table__cell--non-numeric">Calories </th>
+													</tr>
+												</thead>
+												  <tbody id='lunch_sec'>
+												  </tbody>
+											</table>
+										</div>
+									</div>
+								</p>
+							</div>
+							<button class='accordion'>Dinner Preferences</button>
+							<div class='panel'>
+								<p>
+									<div class="mdl-grid mdl-shadow--2dp">
+										<div class="mdl-cell mdl-cell--6-col">
+										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label wid90">
+											<input class="mdl-textfield__input" type="text" id="dinner_name">
+											<label class="mdl-textfield__label" for="dinner_name">Name Of the food</label>
+										</div><br/>
+										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label wid90">
+											<input class="mdl-textfield__input" type="text" id="dinner_cal">
+											<label class="mdl-textfield__label" for="dinner_cal">Calories consumed by it</label>
+										</div><br/>
+										<button id="save_dinner" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored wid90">Add Item</button>
+										</div>
+										<div class="mdl-cell mdl-cell--6-col">
+											<table class="mdl-data-table mdl-js-data-table" style="width:100%;">
+												<thead>
+												   	<tr>
+													   <th class="mdl-data-table__cell--non-numeric">Food Name</th>
+													   <th class="mdl-data-table__cell--non-numeric">Calories </th>
+													</tr>
+												</thead>
+												  <tbody id='dinner_sec'>
+												  </tbody>
+											</table>
+										</div>
+									</div>
+								</p>
+							</div>
+						</div>
+						<div>
+							<h5 style="text-align: left;border-bottom: 1px solid rgba(0, 0, 0, 0.44);">Today's Intake Details</h5>
+							<div class="mdl-grid">
+								<div class="mdl-cell mdl-cell--4-col">
+									<div style="text-align: left;font-weight: 600;font-style: italic;border-bottom: 1px solid rgba(0, 0, 0, 0.44);">What's In Tiffin ?</div>
+									<div id="enterTiffin">
+										<select name="dev" id="tiffin_items" class="wid90">
+										</select> <br/>
+										<button id="add_tiffin" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored wid90">Add Item</button>
+									</div>
+								</div>
+								<div class="mdl-cell mdl-cell--4-col">
+									<div style="text-align: left;font-weight: 600;font-style: italic;border-bottom: 1px solid rgba(0, 0, 0, 0.44);">What's In Lunch ?</div>
+									<div id="enterLunch">
+										<select name="dev" id="lunch_items" class="wid90">
+										</select> <br/>
+										<button id="add_lunch" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored wid90">Add Item</button>
+									</div>
+								</div>
+								<div class="mdl-cell mdl-cell--4-col">
+									<div style="text-align: left;font-weight: 600;font-style: italic;border-bottom: 1px solid rgba(0, 0, 0, 0.44);">What's In Dinner ?</div>
+									<div id="enterDinner">
+										<select name="dev" id="dinner_items" class="wid90">
+										</select> <br/>
+										<button id="add_dinner" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored wid90">Add Item</button>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
+
+				<div class='mdl-grid mdl-card wid90 mdl-shadow--2dp' style="margin-top:10px; padding: 10px;">
+				 	<div class="mdl-cell mdl-cell--4-col">
+				 		<div class="calendar"></div>
+						<div class="box" style="padding: 5px;"></div>	
+						<button id="graph" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored wid90">Show Consumption Details</button>
+				 	</div>
+				 	<div class="mdl-cell mdl-cell--8-col">
+				 		<div class="myLoader" style="padding:10px;">
+	    					<img src='img/cube.gif'/>
+	    					<h1>Loading ...</h1>
+	    				</div>
+	    				<div id="foodTabMock" style="overflow-x:auto;">
+					 		<h1>Choose the Date/Range</h1>
+					 		<h2>To Show Food Consumption Details</h2>
+				 		</div>
+				 		<div id="foodTab" style="overflow-x: auto;">
+				 			<h3 >Food Consumpition Detailed Table</h3>
+						 	<table class="mdl-data-table mdl-js-data-table" style="width:100%;">
+								<thead>
+								   	<tr>
+									   <th style='text-align:center;' class="mdl-data-table__cell--non-numeric">Type</th>
+									   <th style='text-align:center;' class="mdl-data-table__cell--non-numeric">Item</th>
+									   <th style='text-align:center;' class="mdl-data-table__cell--non-numeric">Calories</th>
+									   <th style='text-align:center;' class="mdl-data-table__cell--non-numeric">Date</th>
+									   <th style='text-align:center;' class="mdl-data-table__cell--non-numeric">Time</th>
+									</tr>
+								</thead>
+								  <tbody id="myFoodDets">
+								  </tbody>
+							</table>
+				 		</div>
+				 	</div>
+				</div>
+
+				<div class="mdl-grid mdl-card wid90 mdl-shadow--2dp" style="margin-top:10px;">
+					<div class="mdl-cell--5-col">
+						<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label wid90">
+					      <input class="mdl-textfield__input" type="text" id="medname">
+					      <label class="mdl-textfield__label" for="medname">Medecine Name</label>
+					  	</div><br/>
+					  	<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label wid90">
+					      <input class="mdl-textfield__input" type="text" id="medtime">
+					      <label class="mdl-textfield__label" for="medtime">Time Of Day (HH:MM)</label>
+					  	</div><br/>
+					  	<button id="medSave" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored wid90">Save Medecine </button>
+					</div>
+					<div class="mdl-cell--7-col">
+						<h5>Your Medecines Reminders will be listed here.</h5>
+	    				<div id='MedDetails'>
+			 				<h4>Save your first Medecine to get started.</h4>
+			 			</div>
+					</div>
+					
+				 </div>
 				 
 				<div class="demo-card-wide mdl-card mdl-shadow--2dp" style="margin-top:10px;">
 				 	<div class='mdl-grid'>
@@ -206,7 +487,7 @@
 						  </div>
 						  <div class="mdl-card__actions mdl-card--border">
 						    <a id = "natashaPage" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-						      Talk to Natasha
+						      Settings
 						    </a>
 						  </div>
 						</div>
@@ -225,219 +506,295 @@
 					    var data = { message: string, timeout: 2000 };
 					    snackbarContainer.MaterialSnackbar.showSnackbar(data);
 					}
+
+					function pullNavImg(){
+						var url="http://localhost/natasha/count.php?user="+localStorage.getItem('user');
+				     	$.getJSON(url,function(result){
+						   if(result.check=='True')
+						   		$('#navImg').attr(
+    'src',"http://localhost/natasha/images/"+localStorage.getItem('user')+"/"+result.count+".jpg");	
+						   else
+						   		$('#navImg').attr('src',"img/nopicture.jpg");
+					 	});
+					}
+
+					function pullProImg(){
+						var url="http://localhost/natasha/count.php?user="+localStorage.getItem('user');
+				     	$.getJSON(url,function(result){
+						   if(result.check=='True')
+						   {
+						   		$('#profileImg').attr(
+    'src',"http://localhost/natasha/images/"+localStorage.getItem('user')+"/"+result.count+".jpg");
+						   }
+						   else
+						   {
+						   		$('#profileImg').attr('src',"img/nopicture.jpg");
+						   }
+					 	});
+					}
+
+					function pullProData(){
+						var url="http://localhost/natasha/server/index.php?user="+localStorage.getItem('user');
+					 	$.getJSON(url,function(result){
+					 		if(result.check=='True')
+					 		{
+					 			document.getElementById('getName').innerHTML += result.name;
+					 			document.getElementById('getCal').innerHTML += result.cal +", Per Day.";
+					 		}
+					 		else
+					 		{
+					 			snack('Failed !');
+					 		}
+					 	});
+					}
+
+					function pullTiffin()
+					{
+						var url="http://localhost/natasha/server/index.php?user="+localStorage.getItem('user')+"&type=tiffin";
+						var sec = document.getElementById('tiffin_sec');
+						sec.innerHTML="";
+						$.getJSON(url,function(result){
+					 		$.each(result,function(i,field){
+					 			sec.innerHTML += "<tr><td class='mdl-data-table__cell--non-numeric'>"+field.name+"</td>"+"<td class='mdl-data-table__cell--non-numeric'>"+field.cal+"</td></tr>";
+					 		});
+					 	});
+					}
+
+					function pullLunch()
+					{
+						var url="http://localhost/natasha/server/index.php?user="+localStorage.getItem('user')+"&type=lunch";
+						var sec = document.getElementById('lunch_sec');
+						sec.innerHTML="";
+						$.getJSON(url,function(result){
+					 		$.each(result,function(i,field){
+					 			sec.innerHTML += "<tr><td class='mdl-data-table__cell--non-numeric'>"+field.name+"</td>"+"<td class='mdl-data-table__cell--non-numeric'>"+field.cal+"</td></tr>";
+					 		});
+					 	});
+					}
+
+					function pullDinner()
+					{
+						var url="http://localhost/natasha/server/index.php?user="+localStorage.getItem('user')+"&type=dinner";
+						var sec = document.getElementById('dinner_sec');
+						sec.innerHTML="";
+						$.getJSON(url,function(result){
+					 		$.each(result,function(i,field){
+					 			sec.innerHTML += "<tr><td class='mdl-data-table__cell--non-numeric'>"+field.name+"</td>"+"<td class='mdl-data-table__cell--non-numeric'>"+field.cal+"</td></tr>";
+					 		});
+					 	});
+					}
+
+					function delMedecine(a)
+					{
+						var url="http://localhost/natasha/server/index.php?delmed="+a;
+						$.getJSON(url,function(result){
+							if(result.check=='True')
+							{
+								snack('Deleted Successfully!');
+								pulMedecines();
+							}
+							else
+								snack('Deletion Failed !');
+						});
+					}
+
+					function pulMedecines()
+					{
+						var url="http://localhost/natasha/server/?showmeds="+localStorage.getItem("user");
+						var block = document.getElementById('MedDetails');
+						$.getJSON(url,function(result){
+							if(result.length>0)
+								block.innerHTML="";
+							$.each(result,function(i,field){
+								block.innerHTML +="<button class='meds'>"+field.medname+" @ "+field.mtime+" <span style='float: right;'>[<a onclick='delMedecine(\""+field.mid+"\")'>Delete</a>]</span></button>";
+							});
+						});
+					}
+
+					function pullPref()
+					{
+						var url="http://localhost/natasha/server/index.php?userFoodDet="+localStorage.getItem("user");
+						var tiffin = document.getElementById('tiffin_items');
+						var lunch = document.getElementById('lunch_items');
+						var dinner = document.getElementById('dinner_items'); 
+						tiffin.innerHTML="";
+						lunch.innerHTML="";
+						dinner.innerHTML="";
+						$.getJSON(url,function(result){
+							$.each(result,function(i,field){
+								if(field.type=="tiffin")
+								{
+									tiffin.innerHTML+="<option value=\""+field.name+"@"+field.cal+"\">"+field.name+"</option>";
+								}
+								else if(field.type=="lunch")
+								{
+									lunch.innerHTML+="<option value=\""+field.name+"@"+field.cal+"\">"+field.name+"</option>";
+								}
+								else if(field.type=="dinner")
+								{
+									dinner.innerHTML+="<option value=\""+field.name+"@"+field.cal+"\">"+field.name+"</option>";
+								}
+							});
+						});
+					}
+
 					$(document).ready(function(){
-						setInterval(function(){
-							var url="http://localhost/natasha/server/index.php?status";
-						     	 //prompt("abc",url);
-						     	 $.getJSON(url,function(result){
-								//alert(result.LOne+result.FOne+result.LTwo+result.FTwo+result.FThree+"test");
-							  	   if(result.lone=="OFF")
-							  	   		{
-							  	   			$("#LOne").html('1st Light (OFF)');
-							  	   			localStorage.setItem("LOne","OFF");
-							  	   		}
-							  	   else
-							  	   		{
-							  	   			$("#LOne").html('1st Light (ON)');
-							  	   			localStorage.setItem("LOne","ON");
-							  	   		}
-
-							  	   if(result.ltwo=="OFF")
-							  	   		{
-							  	   			$("#LTwo").html('2nd Light (OFF)');
-							  	   			localStorage.setItem("LTwo","OFF");
-							  	   		}
-							  	   else
-							  	   		{
-							  	   			$("#LTwo").html('2nd Light (ON)');
-							  	   			localStorage.setItem("LTwo","ON");
-							  	   		}
-
-							  	   if(result.fone=="OFF")
-							  	   		{
-							  	   			$("#FOne").html('1st Fan (OFF)');
-							  	   			localStorage.setItem("FOne","OFF");
-							  	   		}
-							  	   else
-							  	   		{
-							  	   			$("#FOne").html('1st Fan (ON)');
-							  	   			localStorage.setItem("FOne","ON");
-							  	   		}
-
-							  	   if(result.ftwo=="OFF")
-							  	   		{
-							  	   			$("#FTwo").html('2nd Fan (OFF)');
-							  	   			localStorage.setItem("FTwo","OFF");
-							  	   		}
-							  	   else
-							  	   		{
-							  	   			$("#FTwo").html('2nd Fan (ON)');
-							  	   			localStorage.setItem("FTwo","ON");
-							  	   		}
-
-							  	   if(result.pump=="OFF")
-							  	   		{
-							  	   			$("#FThree").html('Plug (OFF)');
-							  	   			localStorage.setItem("Plug","OFF");
-							  	   		}
-							  	   else
-							  	   		{
-							  	   			$("#FThree").html('Plug (ON)');
-							  	   			localStorage.setItem("Plug","ON");
-							  	   		}
-							  	    $('.myLoader').hide();
-							  	  	$('#switches').show();
-							  	  	$('#surcam').show();
-							  });
-						     }, 5000);
 					
-					$("#hme").click(function(){
-						var url = document.getElementById('ip').value
+					pullProImg();
+					pullProData();
+					pullTiffin();
+					pullLunch();
+					pullDinner();
+					pullPref();
+					pullNavImg();
+					pulMedecines();
 
-						$('#hme').css("display", "none");
-						$('#hpan').html('<iframe style="min-height:280px;" src="'+url+'"/>');
+					var acc = document.getElementsByClassName("accordion");
+					var k;
+
+					for (k = 0; k < acc.length; k++) {
+					  acc[k].onclick = function() {
+					    this.classList.toggle("active");
+					    var panel = this.nextElementSibling;
+					    if (panel.style.maxHeight){
+					      panel.style.maxHeight = null;
+					    } else {
+					      panel.style.maxHeight = panel.scrollHeight + "px";
+					    } 
+					  }
+					}
+
+					$("#medSave").click(function(){
+						var url="http://localhost/natasha/server/?meduser="+localStorage.getItem('user')+
+								"&medname="+document.getElementById("medname").value+"&medtime="+document.getElementById("medtime").value;
+						$.getJSON(url,function(result){
+							if(result.check='True')
+								{
+									snack('Successfully added medecine !');
+									document.getElementById('medname').value="";
+									$('#medname').parent().removeClass('is-dirty');
+									document.getElementById('medtime').value="";
+									$('#medtime').parent().removeClass('is-dirty');
+									pulMedecines();
+
+								}
+							else
+								snack('Failed Adding !');
+						});
 					});
 						
-					$("#LOne").click(function(){
-						var stat;
-						if(localStorage.getItem("LOne")=="ON")
-						{
-							stat = 'OFF';
-							localStorage.setItem("LOne","OFF");
-						}
-						else
-						{
-							stat = 'ON';
-							localStorage.setItem("LOne","ON");
-						}
-
-						var url="http://localhost/natasha/server/index.php?sid=lone&status="+stat;
-					     	 //prompt("abc",url);
-					     	$.getJSON(url,function(result){
-					     		if(result.check=="True")
-						  	   		{
-						  	   			snack('Please Wait');
-						  	   		}
-						  	   	else
-						  	   	{
-						  	   		snack('Failed...');
-						  	   	}
-					     	});
-
+					$("#save_tiffin").click(function(){
+						var url="http://localhost/natasha/server/index.php?user="+localStorage.getItem('user')+"&type=tiffin&name="+document.getElementById('tiffin_name').value+"&cal="+document.getElementById('tiffin_cal').value;
+						//prompt("a",url);
+						$.getJSON(url,function(result){
+							if(result.check=='True')
+							{
+								pullTiffin();
+								document.getElementById('tiffin_name').value="";
+								$('#tiffin_name').parent().removeClass('is-dirty');
+								document.getElementById('tiffin_cal').value="";
+								$('#tiffin_cal').parent().removeClass('is-dirty');
+								pullPref();
+								snack('Added Successfully !');
+							}
+							else
+								snack('Failed to add item!');
+						});
 					});
 
-					$("#LTwo").click(function(){
-						var stat;
-						if(localStorage.getItem("LTwo")=="ON")
-						{
-							stat = 'OFF';
-							localStorage.setItem("LTwo","OFF");
-						}
-						else
-						{
-							stat = 'ON';
-							localStorage.setItem("LTwo","ON");
-						}
-
-						var url="http://localhost/natasha/server/index.php?sid=ltwo&status="+stat;
-					     	 //prompt("abc",url);
-					     	$.getJSON(url,function(result){
-					     		if(result.check=="True")
-						  	   		{
-						  	   			snack('Please Wait');
-						  	   		}
-						  	   	else
-						  	   	{
-						  	   		snack('Failed...');
-						  	   	}
-					     	});
-
+					$("#save_lunch").click(function(){
+						var url="http://localhost/natasha/server/index.php?user="+localStorage.getItem('user')+"&type=lunch&name="+document.getElementById('lunch_name').value+"&cal="+document.getElementById('lunch_cal').value;
+						//prompt("a",url);
+						$.getJSON(url,function(result){
+							if(result.check=='True')
+							{
+								pullLunch();
+								document.getElementById('lunch_name').value="";
+								$('#lunch_name').parent().removeClass('is-dirty');
+								document.getElementById('lunch_cal').value="";
+								$('#lunch_cal').parent().removeClass('is-dirty');
+								pullPref();
+								snack('Added Successfully !');
+							}
+							else
+								snack('Failed to add item!');
+						});
 					});
 
-					$("#FOne").click(function(){
-						var stat;
-						if(localStorage.getItem("FOne")=="ON")
-						{
-							stat = 'OFF';
-							localStorage.setItem("FOne","OFF");
-						}
-						else
-						{
-							stat = 'ON';
-							localStorage.setItem("FOne","ON");
-						}
+					$("#save_dinner").click(function(){
+						var url="http://localhost/natasha/server/index.php?user="+localStorage.getItem('user')+"&type=dinner&name="+document.getElementById('dinner_name').value+"&cal="+document.getElementById('dinner_cal').value;
+						//prompt("a",url);
+						$.getJSON(url,function(result){
+							if(result.check=='True')
+							{
+								pullDinner();
+								document.getElementById('dinner_name').value="";
+								$('#dinner_name').parent().removeClass('is-dirty');
+								document.getElementById('dinner_cal').value="";
+								$('#dinner_cal').parent().removeClass('is-dirty');
+								pullPref();
+								snack('Added Successfully !');
+							}
+							else
+								snack('Failed to add item!');
+						});
+					});	
 
-						var url="http://localhost/natasha/server/index.php?sid=fone&status="+stat;
-					     	 //prompt("abc",url);
-					     	$.getJSON(url,function(result){
-					     		if(result.check=="True")
-						  	   		{
-						  	   			snack('Please Wait');
-						  	   		}
-						  	   	else
-						  	   	{
-						  	   		snack('Failed...');
-						  	   	}
-					     	});
-
+					$('#add_tiffin').click(function(){
+						var str=document.getElementById('tiffin_items').value
+						var arrStr = str.split('@');
+						var url = "http://localhost/natasha/server/index.php?user="+localStorage.getItem('user')+"&FoodType=tiffin&FoodItem="+arrStr[0]+"&FoodCal="+arrStr[1];
+						$.getJSON(url,function(result){
+							if(result.check=='True')
+								snack('Successfully Added !');
+							else
+								snack('Failed Adding ');
+						});
 					});
 
-					$("#FTwo").click(function(){
-						var stat;
-						if(localStorage.getItem("FTwo")=="ON")
-						{
-							stat = 'OFF';
-							localStorage.setItem("FTwo","OFF");
-						}
-						else
-						{
-							stat = 'ON';
-							localStorage.setItem("FTwo","ON");
-						}
-
-						var url="http://localhost/natasha/server/index.php?sid=ftwo&status="+stat;
-					     	 //prompt("abc",url);
-					     	$.getJSON(url,function(result){
-					     		if(result.check=="True")
-						  	   		{
-						  	   			snack('Please Wait');
-						  	   		}
-						  	   	else
-						  	   	{
-						  	   		snack('Failed...');
-						  	   	}
-					     	});
-
+					$('#add_lunch').click(function(){
+						var str=document.getElementById('lunch_items').value
+						var arrStr = str.split('@');
+						var url = "http://localhost/natasha/server/index.php?user="+localStorage.getItem('user')+"&FoodType=lunch&FoodItem="+arrStr[0]+"&FoodCal="+arrStr[1];
+						$.getJSON(url,function(result){
+							if(result.check=='True')
+								snack('Successfully Added !');
+							else
+								snack('Failed Adding ');
+						});
 					});
 
-					$("#FThree").click(function(){
-						var stat;
-						if(localStorage.getItem("FThree")=="ON")
-						{
-							stat = 'OFF';
-							localStorage.setItem("FThree","OFF");
-						}
-						else
-						{
-							stat = 'ON';
-							localStorage.setItem("FThree","ON");
-						}
-
-						var url="http://localhost/natasha/server/index.php?sid=pump&status="+stat;
-					     	 //prompt("abc",url);
-					     	$.getJSON(url,function(result){
-					     		if(result.check=="True")
-						  	   		{
-						  	   			snack('Please Wait');
-						  	   		}
-						  	   	else
-						  	   	{
-						  	   		snack('Failed...');
-						  	   	}
-					     	});
-
+					$('#add_dinner').click(function(){
+						var str=document.getElementById('dinner_items').value
+						var arrStr = str.split('@');
+						var url = "http://localhost/natasha/server/index.php?user="+localStorage.getItem('user')+"&FoodType=dinner&FoodItem="+arrStr[0]+"&FoodCal="+arrStr[1];
+						$.getJSON(url,function(result){
+							if(result.check=='True')
+								snack('Successfully Added !');
+							else
+								snack('Failed Adding ');
+						});
 					});
-						
+
+					$('#graph').click(function(){
+						$('.myLoader').show();
+						$('#foodTabMock').hide();
+						var url="http://localhost/natasha/server/?dietuser="+localStorage.getItem('user')
+						+"&dsdate="+stDate+"&dedate="+enDate;
+						var table=document.getElementById('myFoodDets');
+						table.innerHTML="";
+						$.getJSON(url,function(result){
+							$.each(result, function(i, field){
+								table.innerHTML += "<tr><td style='text-align:center;text-transform: capitalize;'>"+field.type+"</td>"+
+													"<td style='text-align:center;text-transform: capitalize;'>"+field.item+"</td>"+
+													"<td style='text-align:center;text-transform: capitalize;'>"+field.cal+"</td>"+
+													"<td style='text-align:center;text-transform: capitalize;'>"+field.tdate+"</td>"+
+													"<td style='text-align:center;text-transform: capitalize;'>"+field.ttime+"</td></tr>";
+							});
+							$('#foodTab').show();
+							$('.myLoader').hide();
+						});
+					});
 					   	
 					$("#welcome").html("Welcome "+localStorage.getItem('user'));
 					$("#logout").click(function(){
@@ -459,7 +816,10 @@
 					});
 					$("#natashaPage").click(function(){
 						snack('Please Wait');
-						window.open("msg.html","_self");
+						window.open("settings.html","_self");
+					});
+					$("#navAbout").click(function(){
+						snack('Module By S!D');
 					});
 				});
 				</script>
